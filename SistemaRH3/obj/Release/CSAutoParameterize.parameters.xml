@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DataBase-Web.config Connection String" description="DataBase Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SistemaRH3.mdf;Initial Catalog=SistemaRH3;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DataBase']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="DefaultConnection_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="DataBase_DatabasePublish-Web.config Connection String" description="DataBase_DatabasePublish Connection String used in web.config by the application to access the database." defaultValue="DataBase_DatabasePublish.ConnetionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DataBase_DatabasePublish']/@connectionString" />
+  </parameter>
+</parameters>

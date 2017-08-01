@@ -1,0 +1,428 @@
+﻿@model IEnumerable<SistemaRH3.Models.Departamentos>
+
+@{
+    ViewBag.Title = "Departamentos";
+    SistemaRH3.Controllers.EmpleadosController emp = new SistemaRH3.Controllers.EmpleadosController();
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+}
+<script src="@Url.Content("~/Scripts/jquery-3.1.1.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/printThis.js")"></script>
+<div id="body">
+
+
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Departamentos <small>Resumen</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <button type="button" id="btnCreate" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#productModal">
+                        Agregar Departamento
+                    </button>
+                    <a class="btn btn-sm btn-warning" href="#">Buscar Departamento</a>
+
+                    @*<a href="@Url.Action("DownloadPDF", "Departamentos")" class="btn btn-sm btn-success">Exportar a PDF</a>*@
+                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalPrint">Exportar PDF</button>
+
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div id="modalPrint" role="dialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Preview</h4>
+                </div>
+                <div class="modal-body" id="contenido">
+                  <table>
+                      <thead>
+                          <tr>
+                          <th>Id</th>
+                            <th>Nombre</th>
+                              <th>Funcion</th>
+                              <th>Cantidad de Empleados</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach(var item in Model)
+                          {
+                              <tr>
+                                  <td>@item.DepartamentoID</td>
+                                  <td>@item.nombre</td>
+                                  <td>@item.funcion</td>
+                                  <td>@emp.cantidadEmp(item.DepartamentoID)</td>
+                              </tr>
+                          }
+                      </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" id="imprimir" class="btn btn-success">Imprimir</button>
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $('#imprimir').click(function () {
+            $('#contenido').printThis();
+        });
+    </script>
+
+    <!--Insert/Update Model-->
+    <div id="productModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><label id="title"></label></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="hidden" class="form-control" id="id" />
+                                <label>Nombre</label>
+                                <input type="text" id="nombre" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <label>Funcion</label>
+                                <input type="text" id="funcion" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnSave" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--Confirmation modal-->
+    <div id="confirmModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><label id="title"></label></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        Quiere eliminar este departamento ?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                    <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Declare a variable to check when the action is Insert or Update
+        var isUpdateable = false;
+
+        // Get products list, by default, this function will be run first for the page load
+        function getProducts() {
+            $.ajax({
+                url: '/Departametos/GetProducts/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var rows = '';
+                    $.each(data, function (i, item) {
+                        rows += "<tr>"
+                        rows += "<td>" + item.Id + "</td>"
+                        rows += "<td>" + item.Name + "</td>"
+                        rows += "<td>" + item.Price + "</td>"
+                        rows += "<td><button type='button' id='btnEdit' class='btn btn-default' onclick='return getProductById(" + item.Id + ")'>Edit</button> <button type='button' id='btnDelete' class='btn btn-danger' onclick='return deleteProductById(" + item.Id + ")'>Delete</button></td>"
+                        rows += "</tr>";
+                        $("#listProducts tbody").html(rows);
+                    });
+                },
+                error: function (err) {
+                    alert("Error: " + err.responseText);
+                }
+            });
+        }
+
+        // Get product by id
+        function getProductById(id) {
+            $("#title").text("Product Detail");
+            $.ajax({
+                url: '/Departamentos/Get/' + id,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $("#Id").val(data.Id);
+                    $("#Name").val(data.Name);
+                    $("#Price").val(data.Price);
+                    isUpdateable = true;
+                    $("#productModal").modal('show');
+                },
+                error: function (err) {
+                    alert("Error: " + err.responseText);
+                }
+            });
+        }
+
+        // Insert/ Update a product
+        $("#btnSave").click(function (e) {
+
+            var data = {
+
+                nombre: $("#nombre").val(),
+                funcion: $("#funcion").val()
+            }
+
+            if (!isUpdateable) {
+                $.ajax({
+                    url: '@Url.Action("Crear","Departamentos")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        //getProducts();
+                        window.location.reload();
+                        $("#productModal").modal('hide');
+                        clear();
+                    },
+                    error: function (err) {
+                        alert("Error: " + err.responseText);
+                    }
+                })
+            }
+            else {
+                $.ajax({
+                    url: '/Departamentos/Update/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        getProducts();
+                        isUpdateable = false;
+                        $("#productModal").modal('hide');
+                        clear();
+                    },
+                    error: function (err) {
+                        alert("Error: " + err.responseText);
+                    }
+                })
+            }
+        });
+
+        // Delete product by id
+        function deleteProductById(id, hasEmp) {
+
+            //if (hasEmp="si") {
+            //    alert("No puede eliminar este departamento porque tiene empleados registrados!");
+            //} else if(hasEmp="no"){
+
+            $("#confirmModal #title").text("Eliminar Departamento");
+            $("#confirmModal").modal('show');
+            $("#confirmModal #btnOk").click(function (e) {
+                $.ajax({
+                    url: "@Url.Action("Borrar", "Departamentos")" + "/" + id,
+                    type: "POST",
+                    dataType: 'json',
+                    success: function (data) {
+                        window.location.reload();
+                        $("#confirmModal").modal('hide');
+                    },
+                    error: function (err) {
+                        alert("Error: " + err.responseText);
+                    }
+                });
+
+                e.preventDefault();
+            });
+            }
+            
+        //}
+        // Set title for create new
+        $("#btnCreate").click(function () {
+            $("#title").text("Crear nuevo departamento");
+        })
+
+        // Close modal
+        $("#btnClose").click(function () {
+            clear();
+        });
+
+        // Clear all items
+        function clear() {
+            $("#Id").val("");
+            $("#nombre").val("");
+            $("#funcion").val("");
+        }
+    </script>
+
+
+
+    <div class="row" style="margin-top:25px">
+        <div class="col-md-4">
+
+            @*<table  border=0 cellspacing=5 cellpadding=0 class="horizontal">
+
+                    @{
+                        string color = "";
+                        int cc = 1;
+
+                        }
+
+                    @foreach (var item in Model)
+                    {
+                        int pct = emp.porcentajeEmps(item.DepartamentoID);
+
+                        string px = pct.ToString() + "px";
+
+                        if (cc == 1)
+                        {
+                            color = "redBar";
+                        }
+                        else if (cc == 2)
+                        {
+                            color = "blueBar";
+                        }
+                        else if (cc == 3)
+                        {
+                            color = "yellowBar";
+                        }
+                        else if (cc == 4)
+                        {
+                            color = "purpleBar";
+                        }
+                        else if (cc == 5)
+                        {
+                            color = "greenBar";
+                        }
+                        else
+                        {
+                            color = "orangeBar";
+                        }
+                        cc++;
+
+                        <tr>
+                            <td style="text-align:right">
+                                @item.nombre
+                            </td>
+
+                            <td>
+                                <div class="@color" style="width:@px;  margin-left:10px;"></div>
+                            </td>
+
+                            <td>
+                                <div style="margin-left:10px">
+
+                                    <strong>@pct %</strong>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                    <tr><td style="text-align:center" colspan="3">_____________________________
+                        </td></tr>
+                    <tr>
+                        <td style="text-align:center" colspan="3">Porcentaje de empleados por departamentos</td>
+                    </tr>
+
+                </table>*@
+
+            @Html.Partial("_PorcentajeDept", db.Departamentos.ToList())
+
+        </div>
+
+
+        <div class="col-md-8">
+
+            @foreach (var item in Model)
+            {
+                string hasEmp = "no";
+                <div class="well">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <strong>@item.nombre</strong>
+                            <span class="pull-right">@emp.cantidadEmp(item.DepartamentoID) empleados</span>
+                            <p>@item.funcion</p>
+
+                            @if (emp.cantidadEmp(item.DepartamentoID) > 0)
+                            {
+                                hasEmp = "si";
+                            }
+                            <span class="pull-right"><button onclick="deleteProductById(@item.DepartamentoID)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+
+    <style>
+        .horizontal .redBar, .horizontal .greenBar, .horizontal .blueBar,
+        .horizontal .yellowBar, .horizontal .orangeBar, .horizontal .purpleBar {
+            height: 20px;
+        }
+
+
+
+        .redBar, .greenBar, .blueBar, .yellowBar, .orangeBar, .purpleBar {
+            box-shadow: 2px 2px 5px #999;
+            border-radius: 3px;
+        }
+
+        .redBar {
+            background-color: red;
+        }
+
+        .yellowBar {
+            background-color: yellow;
+        }
+
+        .orangeBar {
+            background-color: orange;
+        }
+
+        .purpleBar {
+            background-color: purple;
+        }
+
+        .greenBar {
+            background-color: green;
+        }
+
+        .blueBar {
+            background-color: blue;
+        }
+
+        table {
+            border-spacing: 10px;
+            width: auto;
+        }
+    </style>
+
+
+
+</div>

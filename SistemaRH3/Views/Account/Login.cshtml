@@ -1,0 +1,73 @@
+﻿@using SistemaRH3.Models
+@{
+    Layout = null;
+}
+
+@model LoginViewModel
+
+
+@Styles.Render("~/Content/Login.css")
+@Styles.Render("~/Content/css/bootstrap.css")
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inicie Sesion</title>
+</head>
+<body>
+    
+        
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">Sistema de Recursos Humanos</a>
+            </div>
+
+        </nav>
+
+        <div class="container">
+            
+            <div class="login-container">
+                <h2>Bienvenido</h2>
+                <div id="output"></div>
+                <div class="avatar"><img src="~/Content/person.png" style="height:99px; width:99px;" /></div>
+                <div class="form-box">
+
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                        @Html.AntiForgeryToken()
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Usuario" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Contraseña" })
+                        <button class="btn btn-info btn-block login" type="submit">Entrar</button>
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+        <footer style="text-align:center">
+            <p> &copy; @DateTime.Now.Year - Sistema de Recursos Humanos by Aneudys Ortiz</p>
+        </footer>
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    
+</body>
+</html>

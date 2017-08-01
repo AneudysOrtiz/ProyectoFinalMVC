@@ -1,0 +1,165 @@
+﻿@model SistemaRH3.Models.Empleados
+
+@{
+    ViewBag.Title = "Detalles";
+}
+
+
+
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Detalles <small>Empleados</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <a class="btn btn-sm btn-default"
+                   href="@Url.Action("Index", "Empleados")">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Volver
+                </a>
+
+                <a class="btn btn-sm btn-warning"
+                   href="@Url.Action("Editar", "Empleados", new { id=Model.EmpleadoID})">
+                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                </a>
+
+                <a class="btn btn-sm btn-success"
+                   href="#"><span class="glyphicon glyphicon-print"></span>Exportar PDF</a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <img style="margin-left:20px"class="img-circle img-responsive img-center" src="http://placehold.it/200x200"/>
+    </div>
+
+    <div class="col-md-8">   
+        <div style="height:200px; width:500px; background-color: #eee;">
+            <h2>@Html.DisplayFor(model => model.nombre) @Html.DisplayFor(model => model.apellido)
+            </h2>
+            <p><small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small></p>
+            <ul style="list-style-type:none">
+                <li><span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(model => model.email)</li>
+                <li><span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(model => model.telefono)</li>
+                <li><span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(model => model.direccion)</li>
+            </ul>
+            
+            
+            
+        </div>    
+        
+    </div>
+</div>
+
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Departamento
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Departamentos.nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.cedula)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.cedula)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.apellido)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.apellido)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.sexo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.sexo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaNac)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechaNac)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.telefono)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.telefono)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.estadoCivil)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.estadoCivil)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.direccion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.direccion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.estudios)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.estudios)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.puesto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.puesto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.salario)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.salario)
+            </dd>
+
+        </dl>
+    </div>

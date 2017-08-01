@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SistemaRH3.Models.Asistencias>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+ <!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Asistencia <small>Resumen</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <a class="btn btn-sm btn-primary" href="@Url.Action("Create","Asistencias")">Registrar Asistencia</a>
+                <a class="btn btn-sm btn-warning" href="#">Buscar Asistencia</a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Empleados.cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaDesde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaHasta)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Empleados.cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaDesde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaHasta)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AsistenciaID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AsistenciaID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AsistenciaID })
+        </td>
+    </tr>
+}
+
+</table>

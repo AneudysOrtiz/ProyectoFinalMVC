@@ -1,0 +1,123 @@
+﻿@model IEnumerable<SistemaRH3.Models.Empleados>
+
+@{
+    ViewBag.Title = "Empleados";
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+    SistemaRH3.Models.Empleados Emple = new SistemaRH3.Models.Empleados();
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+@Styles.Render("~/content/font-awesome")
+  <!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Empleados <small>Resumen</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">                
+                <a class="btn btn-sm btn-primary" href="@Url.Action("Agregar","Empleados")">Agregar Empleado</a>
+                <a class="btn btn-sm btn-warning" href="#">Buscar Empleado</a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+    
+
+
+@*<button type="button" id="" class="btn btn-primary" data-toggle="modal" data-target="#empModal">
+    Crear Nuevo
+</button>*@
+
+
+
+
+<div id="empModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label>Agregar Empleado</label></h4>
+            </div>
+            <div class="modal-body">
+
+                @Html.Partial("Create", Emple)
+            </div>
+                  
+                <div class="modal-footer">
+                    
+                    <button type="submit" id="btnSave" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteProductById(id) {
+        $("#confirmModal #title").text("Eliminar Empleado");
+        $("#confirmModal").modal('show');
+        $("#confirmModal #btnOk").click(function (e) {
+            $.ajax({
+                url: "@Url.Action("Borrar", "Departamentos")" +"/"+ id,
+                type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                window.location.reload();
+                $("#confirmModal").modal('hide');
+            },
+            error: function (err) {
+                alert("Error: " + err.responseText);
+            }
+        });
+
+        e.preventDefault();
+    });
+    }
+</script>
+
+
+<!--Confirmation modal-->
+<div id="confirmModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    Quiere eliminar este empleado ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-sm-6 text-center">
+            <img style="margin-left:80px" class="img-circle img-responsive img-center" src="http://placehold.it/200x200" alt="">
+            <h3>
+                @item.nombre @item.apellido
+                <small>@item.puesto</small>
+            </h3>
+            <p>@item.Departamentos.nombre</p>
+            
+            <button class="btn btn-sm btn-warning" ><i class="fa fa-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="deleteProductById(@item.EmpleadoID)"><i class="fa fa-trash"></i></button>
+            @Html.ActionLink("Edit", "Edit", new { id = item.EmpleadoID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.EmpleadoID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.EmpleadoID })
+        </div>
+    }
+</div>

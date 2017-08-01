@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SistemaRH3.Models.Departamentos>
+@{SistemaRH3.Controllers.EmpleadosController emp = new SistemaRH3.Controllers.EmpleadosController(); }
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        
+        window.barChart = Morris.Bar({
+            element: 'bar-chart',
+            data: [
+
+                @foreach(var item in Model)
+                {
+                    double pct = emp.porcentajeEmps(item.DepartamentoID);
+
+                   @: { y: '@item.nombre', a: '@pct' },
+                }
+             
+            ],
+            xkey: 'y',
+            ykeys: ['a'],
+            labels: ['Porcentaje'],
+            lineColors: ['#1e88e5'],
+            lineWidth: '3px',
+            resize: true,
+            redraw: true
+
+        });
+        $(window).resize(function () {
+            window.barChart.redraw();
+            window.lineChart.redraw();
+            window.areaChart.redraw();
+            window.donutChart.redraw();
+        });
+
+    });
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="bar-chart"></div>
+    </div>
+    <div class="panel-footer">
+        <h3 class="panel-title"> Porcentaje de empleados por departamentos</h3>
+
+    </div>
+</div>

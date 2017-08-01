@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="SistemaRRHH" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DataBase-Web.config Connection String" description="" value="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=SistemaRH3;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DataBase']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=SistemaRH3;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="\\\\mac\\home\\documents\\visual\ studio\ 2015\\Projects\\SistemaRH3\\SistemaRH3\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>
