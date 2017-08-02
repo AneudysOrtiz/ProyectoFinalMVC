@@ -50,7 +50,6 @@
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\System.Web.WebPages.dll
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\System.Web.WebPages.Razor.dll
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\WebGrease.dll
-\\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\CrystalDecisions.Shared.dll
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.AI.DependencyCollector.xml
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.AI.ServerTelemetryChannel.xml
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.AI.Web.xml

@@ -233,9 +233,9 @@
         // Delete product by id
         function deleteProductById(id, hasEmp) {
 
-            //if (hasEmp="si") {
-            //    alert("No puede eliminar este departamento porque tiene empleados registrados!");
-            //} else if(hasEmp="no"){
+            if(hasEmp) {
+                alert("No puede eliminar este departamento porque tiene empleados registrados!");
+            } else {
 
             $("#confirmModal #title").text("Eliminar Departamento");
             $("#confirmModal").modal('show');
@@ -257,7 +257,7 @@
             });
             }
             
-        //}
+        }
         // Set title for create new
         $("#btnCreate").click(function () {
             $("#title").text("Crear nuevo departamento");
@@ -279,73 +279,7 @@
 
 
     <div class="row" style="margin-top:25px">
-        <div class="col-md-4">
-
-            @*<table  border=0 cellspacing=5 cellpadding=0 class="horizontal">
-
-                    @{
-                        string color = "";
-                        int cc = 1;
-
-                        }
-
-                    @foreach (var item in Model)
-                    {
-                        int pct = emp.porcentajeEmps(item.DepartamentoID);
-
-                        string px = pct.ToString() + "px";
-
-                        if (cc == 1)
-                        {
-                            color = "redBar";
-                        }
-                        else if (cc == 2)
-                        {
-                            color = "blueBar";
-                        }
-                        else if (cc == 3)
-                        {
-                            color = "yellowBar";
-                        }
-                        else if (cc == 4)
-                        {
-                            color = "purpleBar";
-                        }
-                        else if (cc == 5)
-                        {
-                            color = "greenBar";
-                        }
-                        else
-                        {
-                            color = "orangeBar";
-                        }
-                        cc++;
-
-                        <tr>
-                            <td style="text-align:right">
-                                @item.nombre
-                            </td>
-
-                            <td>
-                                <div class="@color" style="width:@px;  margin-left:10px;"></div>
-                            </td>
-
-                            <td>
-                                <div style="margin-left:10px">
-
-                                    <strong>@pct %</strong>
-                                </div>
-
-                            </td>
-                        </tr>
-                    }
-                    <tr><td style="text-align:center" colspan="3">_____________________________
-                        </td></tr>
-                    <tr>
-                        <td style="text-align:center" colspan="3">Porcentaje de empleados por departamentos</td>
-                    </tr>
-
-                </table>*@
+        <div class="col-md-4">          
 
             @Html.Partial("_PorcentajeDept", db.Departamentos.ToList())
 
@@ -356,7 +290,7 @@
 
             @foreach (var item in Model)
             {
-                string hasEmp = "no";
+                bool hasEmp = false;
                 <div class="well">
 
                     <div class="row">
@@ -368,9 +302,9 @@
 
                             @if (emp.cantidadEmp(item.DepartamentoID) > 0)
                             {
-                                hasEmp = "si";
+                                hasEmp = true;
                             }
-                            <span class="pull-right"><button onclick="deleteProductById(@item.DepartamentoID)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></span>
+                            <span class="pull-right"><button onclick="deleteProductById(@item.DepartamentoID, @hasEmp)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></span>
                         </div>
                     </div>
                 </div>
@@ -378,51 +312,5 @@
         </div>
 
     </div>
-
-
-    <style>
-        .horizontal .redBar, .horizontal .greenBar, .horizontal .blueBar,
-        .horizontal .yellowBar, .horizontal .orangeBar, .horizontal .purpleBar {
-            height: 20px;
-        }
-
-
-
-        .redBar, .greenBar, .blueBar, .yellowBar, .orangeBar, .purpleBar {
-            box-shadow: 2px 2px 5px #999;
-            border-radius: 3px;
-        }
-
-        .redBar {
-            background-color: red;
-        }
-
-        .yellowBar {
-            background-color: yellow;
-        }
-
-        .orangeBar {
-            background-color: orange;
-        }
-
-        .purpleBar {
-            background-color: purple;
-        }
-
-        .greenBar {
-            background-color: green;
-        }
-
-        .blueBar {
-            background-color: blue;
-        }
-
-        table {
-            border-spacing: 10px;
-            width: auto;
-        }
-    </style>
-
-
 
 </div>

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SistemaRH3.Models.Asistencias>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Asistencia";
 }
 
  <!-- Page Heading -->
@@ -23,7 +23,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Empleados.cedula)
+            Empleado
         </th>
         <th>
             @Html.DisplayNameFor(model => model.cantidad)
@@ -40,7 +40,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Empleados.cedula)
+            @Html.DisplayFor(modelItem => item.Empleados.nombre) @Html.DisplayFor(modelItem => item.Empleados.apellido)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.cantidad)

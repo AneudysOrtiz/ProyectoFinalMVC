@@ -59,6 +59,12 @@ namespace SistemaRH3.Models
         [DataType(DataType.MultilineText)]
         public string direccion { get; set; }
 
+        [Display(Name = "Nivel Alcanzado")]        
+        public string nivelAlcanzado { get; set; }
+
+        [Display(Name = "Titulo Obtenido")]
+        public string titulo { get; set; }
+
         [Display(Name = "Estuios completados")]
         [DataType(DataType.MultilineText)]
         public string estudios { get; set; }

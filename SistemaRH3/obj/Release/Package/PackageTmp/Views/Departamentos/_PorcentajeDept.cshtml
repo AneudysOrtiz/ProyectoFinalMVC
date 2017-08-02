@@ -14,7 +14,7 @@
 
                 @foreach(var item in Model)
                 {
-                    int pct = emp.porcentajeEmps(item.DepartamentoID);
+                    double pct = emp.porcentajeEmps(item.DepartamentoID);
 
                    @: { y: '@item.nombre', a: '@pct' },
                 }

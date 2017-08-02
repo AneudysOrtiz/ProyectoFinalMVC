@@ -17,7 +17,38 @@ namespace SistemaRH3.Controllers
     public class DepartamentosController : Controller
     {
         private GeneralContext db = new GeneralContext();
-
+        //Registrar Historial
+        public ActionResult Historial(string desc, string usuarioNombre, string usuarioApellido)
+        {
+            try
+            {
+                var result = db.Historial.Add(new Models.Historial
+                {
+                    descripcion = desc,
+                    elementoNombre = usuarioNombre,
+                    elementoApellido = usuarioApellido,
+                    elemento="departamento",
+                    fecha = DateTime.Now
+                });
+                db.SaveChanges();
+                return Json(new
+                {
+                    Estatus = "OK",
+                    Record = new
+                    {
+                        descripcion = result.descripcion,
+                        elementoNombre = result.elementoNombre,
+                        elementoApellido = result.elementoApellido,
+                        elemento = result.elemento,
+                        Fecha = result.fecha
+                    }
+                });
+            }
+            catch
+            {
+                return Json(new { Estatus = "ERROR" });
+            }
+        }
 
         [HttpPost]
         public ActionResult Crear( Departamentos departamentos)
@@ -26,6 +57,7 @@ namespace SistemaRH3.Controllers
             {
                 db.Departamentos.Add(departamentos);
                 db.SaveChanges();
+                Historial("Se agrego el departamento", departamentos.nombre,"");
             }
 
             return Json(departamentos, JsonRequestBehavior.AllowGet);
@@ -39,6 +71,7 @@ namespace SistemaRH3.Controllers
             {
                 db.Departamentos.Remove(product);
                 db.SaveChanges();
+                Historial("Se elimino el departamento", product.nombre, "");
             }
 
             return Json(product, JsonRequestBehavior.AllowGet);
@@ -47,25 +80,12 @@ namespace SistemaRH3.Controllers
 
 
         // GET: Departamentos
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Departamentos.ToListAsync());
+            return View( db.Departamentos.ToList());
         }
 
-        // GET: Departamentos/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Departamentos departamentos = await db.Departamentos.FindAsync(id);
-            if (departamentos == null)
-            {
-                return HttpNotFound();
-            }
-            return View(departamentos);
-        }
+        
 
 
         public ActionResult DownloadPDF()
@@ -76,28 +96,7 @@ namespace SistemaRH3.Controllers
             };
         }
 
-        // GET: Departamentos/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Departamentos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "DepartamentoID,nombre,funcion")] Departamentos departamentos)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Departamentos.Add(departamentos);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            return View(departamentos);
-        }
+       
 
         // GET: Departamentos/Edit/5
         public async Task<ActionResult> Edit(int? id)
@@ -130,31 +129,8 @@ namespace SistemaRH3.Controllers
             return View(departamentos);
         }
 
-        // GET: Departamentos/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Departamentos departamentos = await db.Departamentos.FindAsync(id);
-            if (departamentos == null)
-            {
-                return HttpNotFound();
-            }
-            return View(departamentos);
-        }
+       
 
-        // POST: Departamentos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Departamentos departamentos = await db.Departamentos.FindAsync(id);
-            db.Departamentos.Remove(departamentos);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

@@ -14,6 +14,7 @@ namespace SistemaRH3.DAL
         public virtual DbSet<Vacaciones> Vacacioness { get; set; }
         public virtual DbSet<Vacantes> Vacantes { get; set; }
         public virtual DbSet<Candidatos> Candidatos { get; set; }
+        public virtual DbSet<Historial> Historial { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

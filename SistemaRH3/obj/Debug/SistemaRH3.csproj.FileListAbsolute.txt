@@ -77,9 +77,8 @@
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.Owin.Security.Google.xml
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.Owin.Security.Twitter.xml
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-\\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\obj\Debug\SistemaRH3.csprojResolveAssemblyReference.cache
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\obj\Debug\SistemaRH3.dll
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\obj\Debug\SistemaRH3.pdb
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\Rotativa.dll
 \\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\CrystalDecisions.CrystalReports.Engine.dll
-\\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\bin\CrystalDecisions.Shared.dll
+\\mac\home\documents\visual studio 2015\Projects\SistemaRH3\SistemaRH3\obj\Debug\SistemaRH3.csprojResolveAssemblyReference.cache

@@ -4,6 +4,10 @@
     ViewBag.Title = "Detalles";
 }
 
+@*<style>
+    #wrapper{background: url(https://www.toptal.com/designers/subtlepatterns/patterns/tileable_wood_texture.png);}
+
+</style>*@
 
 
 <!-- Page Heading -->
@@ -25,141 +29,100 @@
                 </a>
 
                 <a class="btn btn-sm btn-success"
-                   href="#"><span class="glyphicon glyphicon-print"></span>Exportar PDF</a>
+                   href="#"><span class="glyphicon glyphicon-print"></span> Exportar PDF</a>
             </li>
         </ol>
     </div>
 </div>
 
-<div class="row">
+<div class="row" >
     <div class="col-md-3">
         <img style="margin-left:20px"class="img-circle img-responsive img-center" src="http://placehold.it/200x200"/>
     </div>
 
-    <div class="col-md-8">   
-        <div style="height:200px; width:500px; background-color: #eee;">
+    <div class="col-md-6">   
+        <div class="well">
             <h2>@Html.DisplayFor(model => model.nombre) @Html.DisplayFor(model => model.apellido)
+                <small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small>
+
             </h2>
-            <p><small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small></p>
             <ul style="list-style-type:none">
                 <li><span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(model => model.email)</li>
                 <li><span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(model => model.telefono)</li>
                 <li><span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(model => model.direccion)</li>
-            </ul>
-            
-            
-            
-        </div>    
-        
+            </ul>          
+       </div>    
+    </div>
+
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3 text-center">
+        <h3>Informacion Personal</h3>
+    </div>
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt><strong>Cedula: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.cedula)</dd>
+
+            <dt><strong>Fecha de Nacimiento: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.FechaNac)</dd>
+
+            <dt><strong>Sexo: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.sexo)</dd>
+
+            <dt><strong>Estado Civil: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.estadoCivil)</dd>
+        </dl>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-3 text-center">
+        <h3>Informacion Academica</h3>
+    </div>
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt><strong>Nivel Alcanzado: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.nivelAlcanzado)</dd>
+
+            <dt><strong>Titulo Obtenido: </strong></dt>
+            <dd>@Html.DisplayFor(model=>model.titulo)</dd>
+                       
+
+            <dt><strong>Estudios Completados: </strong></dt>
+            <dd>@Html.DisplayFor(model=>model.estudios)</dd>
+        </dl>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-3 text-center">
+        <h3>Informacion Laboral</h3>
+    </div>
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            @if (Model.fechaRegistro != null)
+            {
+                <dt><strong>Fecha de Ingreso: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.fechaRegistro)</dd>
+
+            }
+           
+            <dt><strong>Departamento: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.Departamentos.nombre)</dd>
+
+            <dt><strong>Puesto: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.puesto)</dd>
+
+            <dt><strong>Salario: </strong></dt>
+            <dd>@Html.DisplayFor(model => model.salario)</dd>
+        </dl>
     </div>
 </div>
 
 
-    <div>
-        <dl class="dl-horizontal">
-            <dt>
-                Departamento
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Departamentos.nombre)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.cedula)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.cedula)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.nombre)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.nombre)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.apellido)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.apellido)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.sexo)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.sexo)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaNac)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FechaNac)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.telefono)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.telefono)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.estadoCivil)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.estadoCivil)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.email)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.email)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.direccion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.direccion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.estudios)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.estudios)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.puesto)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.puesto)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.salario)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.salario)
-            </dd>
-
-        </dl>
-    </div>

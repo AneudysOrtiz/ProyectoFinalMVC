@@ -22,7 +22,7 @@
                     <button type="button" id="btnCreate" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#productModal">
                         Agregar Departamento
                     </button>
-                    <a class="btn btn-sm btn-warning" href="#">Buscar Empleado</a>
+                    <a class="btn btn-sm btn-warning" href="#">Buscar Departamento</a>
 
                     @*<a href="@Url.Action("DownloadPDF", "Departamentos")" class="btn btn-sm btn-success">Exportar a PDF</a>*@
                     <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalPrint">Exportar PDF</button>
@@ -57,7 +57,7 @@
                                   <td>@item.DepartamentoID</td>
                                   <td>@item.nombre</td>
                                   <td>@item.funcion</td>
-                                  <td>@emp.cantidadEmp(@item.DepartamentoID)</td>
+                                  <td>@emp.cantidadEmp(item.DepartamentoID)</td>
                               </tr>
                           }
                       </tbody>
@@ -231,12 +231,17 @@
         });
 
         // Delete product by id
-        function deleteProductById(id) {
+        function deleteProductById(id, hasEmp) {
+
+            //if (hasEmp="si") {
+            //    alert("No puede eliminar este departamento porque tiene empleados registrados!");
+            //} else if(hasEmp="no"){
+
             $("#confirmModal #title").text("Eliminar Departamento");
             $("#confirmModal").modal('show');
             $("#confirmModal #btnOk").click(function (e) {
                 $.ajax({
-                    url: "@Url.Action("Borrar", "Empleados")" + "/" + id,
+                    url: "@Url.Action("Borrar", "Departamentos")" + "/" + id,
                     type: "POST",
                     dataType: 'json',
                     success: function (data) {
@@ -250,8 +255,9 @@
 
                 e.preventDefault();
             });
-        }
-
+            }
+            
+        //}
         // Set title for create new
         $("#btnCreate").click(function () {
             $("#title").text("Crear nuevo departamento");
@@ -350,7 +356,7 @@
 
             @foreach (var item in Model)
             {
-
+                string hasEmp = "no";
                 <div class="well">
 
                     <div class="row">
@@ -359,6 +365,11 @@
                             <strong>@item.nombre</strong>
                             <span class="pull-right">@emp.cantidadEmp(item.DepartamentoID) empleados</span>
                             <p>@item.funcion</p>
+
+                            @if (emp.cantidadEmp(item.DepartamentoID) > 0)
+                            {
+                                hasEmp = "si";
+                            }
                             <span class="pull-right"><button onclick="deleteProductById(@item.DepartamentoID)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></span>
                         </div>
                     </div>

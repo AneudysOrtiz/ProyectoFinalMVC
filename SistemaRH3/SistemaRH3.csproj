@@ -208,6 +208,7 @@
     <Compile Include="Controllers\CandidatosController.cs" />
     <Compile Include="Controllers\DepartamentosController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\Candidatos.cs" />
     <Compile Include="Models\Departamentos.cs" />
     <Compile Include="Models\Empleados.cs" />
+    <Compile Include="Models\Historial.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Vacaciones.cs" />
@@ -335,8 +337,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -379,7 +379,7 @@
     <Content Include="Views\Empleados\Create.cshtml" />
     <Content Include="Views\Empleados\Delete.cshtml" />
     <Content Include="Views\Empleados\Detalles.cshtml" />
-    <Content Include="Views\Empleados\Edit.cshtml" />
+    <Content Include="Views\Empleados\Editar.cshtml" />
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Views\Empleados\RendimientoEmps.cshtml" />
     <Content Include="Views\Empleados\_AgregarEmp.cshtml" />
@@ -393,6 +393,11 @@
     <Content Include="Views\Vacantes\Details.cshtml" />
     <Content Include="Views\Vacantes\Edit.cshtml" />
     <Content Include="Views\Vacantes\Index.cshtml" />
+    <Content Include="Views\Shared\DateTime.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\Empleados\Cumples.cshtml" />
+    <Content Include="Views\Home\Historial.cshtml" />
+    <Content Include="Views\Historial\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
