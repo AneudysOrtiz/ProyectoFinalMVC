@@ -4,11 +4,6 @@
     ViewBag.Title = "Detalles";
 }
 
-@*<style>
-    #wrapper{background: url(https://www.toptal.com/designers/subtlepatterns/patterns/tileable_wood_texture.png);}
-
-</style>*@
-
 
 <!-- Page Heading -->
 <div class="row">
@@ -24,7 +19,7 @@
                 </a>
 
                 <a class="btn btn-sm btn-warning"
-                   href="@Url.Action("Editar", "Empleados", new { id=Model.EmpleadoID})">
+                   href="@Url.Action("Editar", "Empleados", new { id = Model.EmpleadoID })">
                     <span class="glyphicon glyphicon-pencil"></span> Editar
                 </a>
 
@@ -35,9 +30,28 @@
     </div>
 </div>
 
+ @{string src = ""; }
+        @if (Model.imagen != null)
+        {
+            src = Model.imagen;
+        }
+        else if (Model.sexo == "Masculino")
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+        else if (Model.sexo == "Femenino")
+        {
+            src = Url.Content("~/Content/mujer.png");
+        }
+        else
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+
+
 <div class="row" >
     <div class="col-md-3">
-        <img style="margin-left:20px"class="img-circle img-responsive img-center" src="http://placehold.it/200x200"/>
+        <img style="margin-left:20px; height:200px; width:200px"class="img-circle img-responsive img-center" src="@src"/>
     </div>
 
     <div class="col-md-6">   
@@ -106,6 +120,13 @@
     </div>
     <div class="col-md-4">
         <dl class="dl-horizontal">
+            @if (Model.fechaRegistro != null)
+            {
+                <dt><strong>Fecha de Ingreso: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.fechaRegistro)</dd>
+
+            }
+           
             <dt><strong>Departamento: </strong></dt>
             <dd>@Html.DisplayFor(model => model.Departamentos.nombre)</dd>
 
@@ -114,6 +135,12 @@
 
             <dt><strong>Salario: </strong></dt>
             <dd>@Html.DisplayFor(model => model.salario)</dd>
+
+            @if (Model.cv != null)
+            {
+                <dt><strong>Anexos: </strong></dt>
+                <dd><a href="@Html.DisplayFor(model => model.cv)">Curriculum Vitae</a></dd>
+            }
         </dl>
     </div>
 </div>

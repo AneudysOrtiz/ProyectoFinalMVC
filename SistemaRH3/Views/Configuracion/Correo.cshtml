@@ -1,0 +1,86 @@
+﻿@model SistemaRH3.Models.ConfigCorreo
+@{ViewBag.Title = "Configuracion Correo"; }
+<!-- Page Heading -->
+<script src="~/Content/js/jquery.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Configuracion <small>Correo Electronico</small>
+        </h1>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a class="list-group-item" href="@Url.Action("Interfaz","Configuracion")">Fondo de Interfaz </a>
+            <a class="list-group-item" href="@Url.Action("BarraHerramientas","Configuracion")">Fondo Barra de Herramientas </a>
+            <a class="list-group-item active" href="@Url.Action("Correo","Configuracion")">Configurar Correo </a>
+            <a class="list-group-item" href="@Url.Action("Register","Account")">Registro de Usuarios</a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+       <div class="form-horizontal">
+           
+           <div class="form-group">
+               <label class="col-md-2 control-label">Email</label>
+               <div class="col-md-6">
+                   <input class="form-control" type="email" name="Email" id="Email" />
+               </div>
+           </div>
+           <div class="form-group">
+               <label class="col-md-2 control-label">Contraseña</label>
+               <div class="col-md-6">
+                   <input type="password" class="form-control" name="Password" id="password" />
+               </div>
+           </div>
+           <div class="form-group">
+               <label class="col-md-2 control-label">Confirmar Contraseña</label>
+               <div class="col-md-6">
+                   <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword" />
+               </div>
+           </div>
+           <div class="form-group">
+               <div class="col-md-offset-2 col-md-10">
+                   <input type="button" id="btnEnviar" class="btn btn-default" value="Registrar" />
+               </div>
+           </div>
+            
+       </div>
+            
+        <script>
+            $("#btnEnviar").click(function () {
+                if ($("#Email").val() !="" && $("#password").val() !="" && $("#ConfirmPassword").val() !="") {
+                    if ($("#password").val() == $("#ConfirmPassword").val()) {
+
+                        $.ajax({
+                            url: '@Url.Action("ConfigCorreo","Configuracion")',
+                            type: 'POST',
+                            data: { correo: $("#Email").val(), pass: $("#password").val() },
+                            success: function (data) {
+                                alert("Correo Agregado"); window.location.reload();
+                            },
+                            error: function (err) {
+                                alert("No se pudo agregar el correo " + err.responseText);
+                            }
+                        })
+
+
+                    } else {
+                        alert("las contraseñas no coinciden");
+                    }
+
+                } else {
+                    alert("Complete todos los campos");
+                }
+
+            });
+
+        </script>
+
+    </div>
+
+    </div>

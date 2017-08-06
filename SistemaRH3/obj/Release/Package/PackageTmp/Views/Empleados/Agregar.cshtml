@@ -6,10 +6,11 @@
 
 }
 <script src="~/Content/js/jquery.js"></script>
+
 <h2>Agregar Empleado</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Agregar","Empleados",FormMethod.Post, new { enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
@@ -64,10 +65,10 @@
                     <label class="col-md-3 control-label" for="nombre">Nombre</label>
                     <div class="col-md-9">
                         <input name="nombre" class="form-control text-box single-line"
-                               id="cedula" type="text" value=""
+                               id="nombre" type="text" value=""
                                data-val-required="El campo Nombre es obligatorio"
                                data-val-length-max="50"
-                               data-val-length="El campo Cedula debe ser una cadena con una longitud máxima de 50."
+                               data-val-length="El campo Nombre debe ser una cadena con una longitud máxima de 50."
                                data-val="true" />
 
                         </div>
@@ -251,7 +252,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2"  style="text-align:left">Foto</label>
                             <div class="col-md-5" >
-                                <input type="file"  name="foto" id="foto" accept=".jpg, .jpeg, .png" class="form-control " />
+                                <input type="file"  accept=".jpeg,.jpg,.png" name="file" id="file" value="Seleccionar" class="form-control " />
                             </div>
                             
                         </div>
@@ -260,7 +261,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" style="text-align:left">Curriculum Vitae</label>
                             <div class="col-md-5">
-                                <input type="file" name="cv" id="cv" accept=".pdf, .docx, .png, .jpg" class="form-control " />
+                                <input type="file" accept=".jpeg,.jpg,.png,.pdf,.docx,.doc" name="file2" id="file2" class="form-control " />
                             </div>
 
                         </div>
@@ -272,22 +273,14 @@
                 
                     <div class="col-md-10">
                         <div class="form-group">
-
-                            <input type="submit" value="Guardar" class="btn btn-info" />
+                       
+                            <input type="submit" value="Guardar"  class="btn btn-info" />
                             <a class="btn btn-danger" href="@Url.Action("Index", "Empleados")">Cancelar</a>
 
                         </div>
                     
                 </div>
-            </div>
-            
-
-
-
-
-
-
-
+            </div>            
 
 }
 

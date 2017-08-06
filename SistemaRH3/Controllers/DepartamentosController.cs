@@ -17,6 +17,59 @@ namespace SistemaRH3.Controllers
     public class DepartamentosController : Controller
     {
         private GeneralContext db = new GeneralContext();
+
+        //Buscar Departamento
+        public ActionResult Buscar(List<Departamentos> departamentos)
+        {
+            return View(departamentos);
+        }
+
+        public List<Departamentos> BuscarNombre(string text)
+        {
+            var result = from c in db.Departamentos
+                         where
+                c.nombre.Contains(text)
+                         select c;
+
+            return result.ToList();
+        }
+
+        public List<Departamentos> BuscarFuncion(string text)
+        {
+            var result = from c in db.Departamentos
+                         where
+                c.funcion.Contains(text)
+                         select c;
+
+            return result.ToList();
+        }
+
+        [HttpPost]
+        public ActionResult BuscarDept(string filtro, string parametro)
+        {
+            var resultado = BuscarNombre("");
+
+             if (filtro.ToLower() == "nombre")
+            {
+                resultado = BuscarNombre(parametro);
+            }
+            else if (filtro.ToLower() == "funcion")
+            {
+                resultado = BuscarFuncion(parametro);
+            }
+
+            if (resultado.Count() != 0)
+            {
+                return PartialView("ResultadoBuscar", resultado);
+            }
+            else
+            {
+                return PartialView("BusquedaNula");
+            }
+        }
+
+
+
         //Registrar Historial
         public ActionResult Historial(string desc, string usuarioNombre, string usuarioApellido)
         {
@@ -97,40 +150,6 @@ namespace SistemaRH3.Controllers
         }
 
        
-
-        // GET: Departamentos/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Departamentos departamentos = await db.Departamentos.FindAsync(id);
-            if (departamentos == null)
-            {
-                return HttpNotFound();
-            }
-            return View(departamentos);
-        }
-
-        // POST: Departamentos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "DepartamentoID,nombre,funcion")] Departamentos departamentos)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(departamentos).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(departamentos);
-        }
-
-       
-
 
         protected override void Dispose(bool disposing)
         {

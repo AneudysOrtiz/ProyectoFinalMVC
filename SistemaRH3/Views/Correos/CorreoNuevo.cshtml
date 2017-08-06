@@ -1,0 +1,49 @@
+﻿@model SistemaRH3.Models.Correos
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+@using (Html.BeginForm("CorreoNuevo", "Correos"))
+            {
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="control-label">Asunto</label>
+                    <input required type="text" name="asunto" id="asunto" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label class="control-label">Destinatario</label>
+                    <input required type="email" name="destinatario" id="destinatario" class="form-control"/>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label required class="control-label">Mensaje</label>
+                    <textarea name="mensaje" id="mensaje2"></textarea>
+                    <script>
+                                    CKEDITOR.replace("mensaje2");
+                    </script>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label>Accion</label>
+
+                    <select name="accion" class="form-control">
+                        <option value="Enviar">Enviar</option>
+                        <option value="Archivar">Archivar</option>
+                    </select>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" id="btnSave" class="btn btn-primary">Enviar</button>
+        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+    </div>
+}

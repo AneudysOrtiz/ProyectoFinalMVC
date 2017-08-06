@@ -1,0 +1,65 @@
+﻿@model SistemaRH3.Models.Vacantes
+@{ 
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+    ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "nombre");
+}
+
+
+@using (Html.BeginForm("Agregar", "Vacantes"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-body">
+    <div class="form-horizontal">       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class = "control-label col-md-4" >Cantidad de Puestos</label>
+            <div class="col-md-4">
+                <select name="cantidad" class="form-control" id="cantidad">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.cantidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartamentoID, "DepartamentoID", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-4">
+                @Html.DropDownList("DepartamentoID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartamentoID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Puesto</label>
+            <div class="col-md-4">
+                <input type="text" name="puesto" id="puesto" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">Estado</label>
+            <div class="col-md-4">
+                <select name="estadoVacante" id="estadoVacante" class="form-control">
+                    <option value="Activa">Activa</option>
+                    <option value="Agotada">Agotada</option>
+                </select>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div class="modal-footer">
+        <input type="submit" id="btnSave" value="Guardar" class="btn btn-primary" />
+        <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+    </div>
+        </div>
+}
+
+
+

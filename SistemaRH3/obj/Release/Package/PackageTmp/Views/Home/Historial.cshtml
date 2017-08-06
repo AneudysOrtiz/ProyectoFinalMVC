@@ -1,0 +1,36 @@
+﻿@model IEnumerable<SistemaRH3.Models.Historial>
+
+<div class="col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Historial</h3>
+        </div>
+        <div class="panel-body">
+            <div class="list-group">
+                @foreach (var item in Model.OrderByDescending(m=>m.fecha).Take(5))
+                {
+                    string icon = "";
+                    switch (item.elemento)
+                    {
+                        case "empleado":
+                            icon = "user";
+                            break;
+
+                        case "departamento":
+                            icon = "archive";
+                            break;
+                    }
+                    <label  class="list-group-item">
+                        <span class="badge">@item.fecha</span>
+                        <i class="fa fa-fw fa-@icon"></i> @item.descripcion @item.elementoNombre
+                        @item.elementoApellido
+                    </label>
+                }
+            </div>
+            <div class="text-right">
+                <a href="@Url.Action("Index", "Historial")">Ver todo el historial <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

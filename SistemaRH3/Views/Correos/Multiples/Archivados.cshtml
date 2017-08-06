@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SistemaRH3.Models.CorreosMultiples>
+
+@{
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+    SistemaRH3.Models.CorreosMultiples CorreosMultiples = new SistemaRH3.Models.CorreosMultiples();
+    int total = db.CorreosMultiples.Count();
+    int enviados = db.CorreosMultiples.Where(c => c.estado == "Enviado").Count();
+    int archivados = db.CorreosMultiples.Where(c => c.estado == "Archivado").Count();
+}
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <button class="list-group-item" id="btnTotal" onclick="mlttotal()">Todos los correos <span class="badge">@total</span></button>
+            <button class="list-group-item" id="btnActivas" onclick="mltenviados()">Correos Enviados <span class="badge">@enviados</span></button>
+            <button class="list-group-item active" id="btnPendientes" onclick="mltarchivados()">Correos Archivados <span class="badge">@archivados</span></button>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        @foreach (var item in Model.OrderByDescending(x => x.CorreoID))
+        {
+            if (item.estado == "Archivado")
+            {
+                <div class="well">
+                    <div class="well">
+                        @if (item.empleadosIDs != null)
+                        {
+                            <strong>Destinatarios: </strong> for (int i = 0; i < item.empleadosIDs.Length; i++)
+                            {
+                                var product = db.Empleados.ToList().Find(x => x.EmpleadoID == int.Parse(item.empleadosIDs[i]));
+                                <label>@product.email, </label>
+                            }
+
+                        }
+                        else
+                        {
+                            <strong>Destinatarios: </strong> @item.destinatarios
+                        }
+                        <br /><strong>Asunto: </strong> @item.asunto
+                        <span class="pull-right">Enviado el @item.fecha </span>
+
+                        <br /><p>
+                            <strong> Mensaje: </strong>
+                            @Html.Raw(item.mensaje)
+                        </p>
+                        <br /><strong>Estado:</strong> @item.estado
+                        <span class="pull-right">
+                            <button type="button" @*onclick="reenviar(@item.CorreoID)"*@
+                                    class="btn btn-sm btn-warning">
+                                <i class="fa fa-send"></i> Reenviar
+                            </button>
+
+                            <button onclick="deleteProductById(@item.CorreoID,'multiple')"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span> Eliminar
+                            </button>
+                        </span>
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
+

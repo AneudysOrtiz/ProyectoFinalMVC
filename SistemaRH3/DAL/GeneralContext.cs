@@ -1,5 +1,6 @@
 ﻿using SistemaRH3.Models;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace SistemaRH3.DAL
 {
@@ -16,9 +17,19 @@ namespace SistemaRH3.DAL
         public virtual DbSet<Candidatos> Candidatos { get; set; }
         public virtual DbSet<Historial> Historial { get; set; }
 
+        
+
+        public DbSet<Correos> Correos { get; set; }
+        public DbSet<CorreosMultiples> CorreosMultiples { get; set; }
+        public DbSet<CorreosNoRegistrados> CorreosNoRegistrados { get; set; }
+        public DbSet<ConfigBackground> ConfigBackground { get; set; }
+        public DbSet<ConfigSideBar> ConfigSideBar { get; set; }
+        public DbSet<ConfigCorreo> ConfigCorreo { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           
+
         }
     }
 }

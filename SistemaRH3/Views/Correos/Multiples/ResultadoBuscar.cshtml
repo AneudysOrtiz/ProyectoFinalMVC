@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SistemaRH3.Models.CorreosMultiples>
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Correo</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Correos</strong></div>
+}
+
+<div class="col-md-8">
+    @foreach (var item in Model.OrderByDescending(x => x.CorreoID))
+    {
+
+        <div class="well">
+            <div class="well">
+                @if (item.empleadosIDs != null)
+                {
+                    <strong>Destinatarios: </strong> for (int i = 0; i < item.empleadosIDs.Length; i++)
+                    {
+                        var product = db.Empleados.ToList().Find(x => x.EmpleadoID == int.Parse(item.empleadosIDs[i]));
+                        <label>@product.email, </label>
+                    }
+                }
+                else
+                {
+                    <strong>Destinatarios: </strong> @item.destinatarios
+                }
+                <br /><strong>Asunto: </strong> @item.asunto
+                <span class="pull-right">Enviado el @item.fecha </span>
+
+                <br /><p>
+                    <strong> Mensaje: </strong>
+                    @Html.Raw(item.mensaje)
+                </p>
+                <br /><strong>Estado:</strong> @item.estado
+                <span class="pull-right">
+                    <button type="button" @*onclick="reenviar(@item.CorreoID)"*@
+                            class="btn btn-sm btn-warning">
+                        <i class="fa fa-send"></i> Reenviar
+                    </button>
+
+                    <button onclick="deleteProductById(@item.CorreoID)"
+                            class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-trash"></span> Eliminar
+                    </button>
+                </span>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>
+
+
+
+
+
+
+

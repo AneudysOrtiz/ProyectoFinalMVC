@@ -8,7 +8,7 @@ namespace SistemaRH3.Models
 {
     public class Empleados
     {
-
+        
         [Key]
         [Display(Name = "ID")]
         public int EmpleadoID { get; set; }
@@ -76,7 +76,14 @@ namespace SistemaRH3.Models
         public string puesto { get; set; }
 
         [Display(Name = "Salario")]
+        [DisplayFormat(DataFormatString ="{0:C2}", ApplyFormatInEditMode =false)]
         public decimal salario { get; set; }
+        
+        public string imagen { get; set; }
+
+        public string cv { get; set; }
+
+        public string estado { get; set; }
 
         public DateTime? fechaRegistro { get; set; }
 

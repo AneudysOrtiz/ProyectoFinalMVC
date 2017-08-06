@@ -17,7 +17,7 @@
         <ol class="breadcrumb">
             <li class="active">                
                 <a class="btn btn-sm btn-primary" href="@Url.Action("Agregar","Empleados")"><i class="fa fa-plus"></i> Agregar Empleado</a>
-                <a class="btn btn-sm btn-warning" href="#"><i class="fa fa-search"></i> Buscar Empleado</a>
+                <a class="btn btn-sm btn-warning" href="@Url.Action("Buscar","Empleados")"><i class="fa fa-search"></i> Buscar Empleado</a>
             </li>
         </ol>
     </div>
@@ -94,10 +94,27 @@
 
 <div class="row">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(m=>m.fechaRegistro))
     {
+        string src= "";
+        if (item.imagen != null)
+        {
+            src = item.imagen;
+        }else if (item.sexo == "Masculino")
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+        else if (item.sexo == "Femenino")
+        {
+            src = Url.Content("~/Content/mujer.png");
+        }
+        else
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+
         <div style="margin-bottom:50px" class="col-lg-4 col-sm-6 text-center">
-            <img style="margin-left:80px" class="img-circle img-responsive img-center" src="http://placehold.it/200x200" alt="">
+            <img style="margin-left:80px; height:200px; width:200px" class="img-circle img-responsive img-center" src="@src" alt="">
             <h3>
                 @item.nombre @item.apellido
                 <small>@item.puesto</small>

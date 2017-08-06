@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -16,112 +15,100 @@ namespace SistemaRH3.Controllers
     public class AsistenciasController : Controller
     {
         private GeneralContext db = new GeneralContext();
+        private Asistencias asistencia = new Asistencias();
+        
+        public ActionResult Buscar()
+        {
+            return View(asistencia);
+        }
 
-        // GET: Asistencias
-        public async Task<ActionResult> Index()
+
+        public List<Asistencias> BuscarNombre(string text)
+        {
+            var result = from c in db.Asistencias
+                         where
+                c.Empleados.nombre.Contains(text)
+                         select c;
+
+            return result.ToList();
+        }
+
+        public List<Asistencias> BuscarCantidad(string text)
+        {
+            int numero = int.Parse(text);
+
+            var result = from c in db.Asistencias
+                         where
+                c.cantidad.Equals(numero)
+                         select c;
+
+            return result.ToList();
+        }
+
+        [HttpPost]
+        public ActionResult BuscarAsis(string filtro, string parametro)
+        {
+            var resultado = BuscarNombre("");
+
+            if (filtro.ToLower() == "nombre")
+            {
+                resultado = BuscarNombre(parametro);
+            }
+            else if (filtro.ToLower() == "cantidad")
+            {
+                resultado = BuscarCantidad(parametro);
+            }
+
+            if (resultado.Count() != 0)
+            {
+                return PartialView("ResultadoBuscar", resultado);
+            }
+            else
+            {
+                return PartialView("BusquedaNula");
+            }
+        }
+
+
+        public ActionResult Index()
         {
             var asistencias = db.Asistencias.Include(a => a.Empleados);
-            return View(await asistencias.ToListAsync());
+            return View(asistencias.ToList());
         }
 
-        // GET: Asistencias/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Asistencias asistencias = await db.Asistencias.FindAsync(id);
-            if (asistencias == null)
-            {
-                return HttpNotFound();
-            }
-            return View(asistencias);
-        }
-
-        // GET: Asistencias/Create
-        public ActionResult Create()
-        {
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "nombre" );
-            return View();
-        }
-
-        // POST: Asistencias/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //agregar asistencia
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "AsistenciaID,EmpleadoID,cantidad,fechaDesde,fechaHasta")] Asistencias asistencias)
+        public ActionResult Agregar([Bind(Include = "AsistenciaID,EmpleadoID,cantidad,fechaDesde,fechaHasta")]
+        Asistencias asistencias)
         {
+           
             if (ModelState.IsValid)
             {
                 db.Asistencias.Add(asistencias);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "cedula", asistencias.EmpleadoID);
-            return View(asistencias);
+            return View("Index", asistencias);
         }
 
-        // GET: Asistencias/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Asistencias asistencias = await db.Asistencias.FindAsync(id);
-            if (asistencias == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "cedula", asistencias.EmpleadoID);
-            return View(asistencias);
-        }
 
-        // POST: Asistencias/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Eliminar asistencia
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "AsistenciaID,EmpleadoID,cantidad,fechaDesde,fechaHasta")] Asistencias asistencias)
+        public ActionResult Borrar(int id)
         {
-            if (ModelState.IsValid)
+            var product = db.Asistencias.ToList().Find(x => x.AsistenciaID == id);
+            if (product != null)
             {
-                db.Entry(asistencias).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                
+                db.Asistencias.Remove(product);
+                db.SaveChanges();
             }
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "cedula", asistencias.EmpleadoID);
-            return View(asistencias);
+
+            return Json(product, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Asistencias/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Asistencias asistencias = await db.Asistencias.FindAsync(id);
-            if (asistencias == null)
-            {
-                return HttpNotFound();
-            }
-            return View(asistencias);
-        }
-
-        // POST: Asistencias/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            Asistencias asistencias = await db.Asistencias.FindAsync(id);
-            db.Asistencias.Remove(asistencias);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

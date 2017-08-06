@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SistemaRH3.Models.Empleados>
+
+
+
+    @foreach (var item in Model)
+    {
+        string src = "";
+        if (item.imagen != null)
+        {
+            src = item.imagen;
+        }
+        else if (item.sexo == "Masculino")
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+        else if (item.sexo == "Femenino")
+        {
+            src = Url.Content("~/Content/mujer.png");
+        }
+        else
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+
+        <div style="margin-bottom:50px" class="col-lg-4 col-sm-6 text-center">
+            <img style="margin-left:80px; height:200px; width:200px" class="img-circle img-responsive img-center" src="@src" alt="">
+            <h3>
+                @item.nombre @item.apellido
+                <small>@item.puesto</small>
+            </h3>
+            <p>@item.Departamentos.nombre</p>
+
+            <a href="@Url.Action("Detalles", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detalles</a>
+            <a href="@Url.Action("Editar", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Editar</a>
+            <button class="btn btn-sm btn-danger" onclick="deleteProductById(@item.EmpleadoID)"><i class="fa fa-trash"></i> Eliminar</button>
+
+
+        </div>
+    }
+

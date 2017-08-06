@@ -11,6 +11,7 @@ namespace SistemaRH3.Models
         [Key]
         public int CandidatoID { get; set; }
 
+        [Display(Name = "Vacante a la que aplica")]
         public int VacanteID { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -23,19 +24,22 @@ namespace SistemaRH3.Models
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string email { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Telefono")]
         public string telefono { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Display(Name = "Imagen")]
+        public string imagen { get; set; }
+
+        [Display(Name = "Curriculum")]
+        public string cv { get; set; }
+
         [Display(Name = "Fecha de Aplicacion")]
-        [DataType(DataType.Date)]
-        public DateTime fechaAp { get; set; }
+        public DateTime? fechaAp { get; set; }        
 
-        
-
-        public virtual Vacantes Vacante { get; set; }
+        public virtual Vacantes Vacantes { get; set; }
     }
 }

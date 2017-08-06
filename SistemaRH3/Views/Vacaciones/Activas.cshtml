@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SistemaRH3.Models.Vacaciones>
+@{ SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+    int vacTotal = db.Vacacioness.Count();
+    int vacActivas = db.Vacacioness.Where(x => x.estado == "Aprobada").Count();
+    int vacPendientes = db.Vacacioness.Where(x => x.estado == "Pendiente").Count();
+    int vacTerminadas = db.Vacacioness.Where(x => x.estado == "Completada").Count();
+}
+
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <button class="list-group-item" id="btnTotal" onclick="total()">Vacaciones Total <span class="badge">@vacTotal</span></button>
+            <button class="list-group-item active" id="btnActivas" onclick="activas()">Vacaciones Activas <span class="badge">@vacActivas</span></button>
+            <button class="list-group-item" id="btnPendientes" onclick="pendientes()">Vacaciones Pendientes <span class="badge">@vacPendientes</span></button>
+            <button class="list-group-item" id="btnTerminadas" onclick="terminadas()">Vacaciones Terminadas <span class="badge">@vacTerminadas</span></button>
+</div>
+    </div>
+
+    <div class="col-md-8">
+
+        @foreach (var item in Model)
+        {
+            if (item.estado == "Aprobada")
+            {
+                TimeSpan dias = item.fechaFin - item.fechaInicio;
+            <div class="well">
+                <div class="well">
+
+                    <strong>Solicitada por:</strong> @item.Empleados.nombre @item.Empleados.apellido
+                    <span class="pull-right">Solicitada el @item.fechaSolicitud </span>
+                    <p>
+                        <strong> Fecha de Incio:</strong> @item.fechaInicio.ToString("d-MMM-yyyy")
+                        <strong>- Fecha de Termino:</strong> @item.fechaFin.ToString("d-MMM-yyyy")
+
+                    </p>
+                    <br /><strong>Cantidad de Dias: </strong>@dias.Days
+                    <br /><strong>Estado:</strong> @item.estado
+                    <span class="pull-right">
+                        <button onclick="deleteProductById(@item.VacacionesID)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </button>
+                    </span>
+
+                </div>
+
+            </div>
+            }
+        }
+    </div>
+
+</div>
+

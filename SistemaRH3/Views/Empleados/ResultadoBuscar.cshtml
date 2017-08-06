@@ -1,0 +1,92 @@
+﻿@model IEnumerable<SistemaRH3.Models.Empleados>
+
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Empleado</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Empleados</strong></div>
+}
+
+
+
+    @foreach (var item in Model)
+    {
+        string src = "";
+        if (item.imagen != null)
+        {
+            src = item.imagen;
+        }
+        else if (item.sexo == "Masculino")
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+        else if (item.sexo == "Femenino")
+        {
+            src = Url.Content("~/Content/mujer.png");
+        }
+        else
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+
+        <div style="margin-bottom:50px" class="col-lg-4 col-sm-6 text-center">
+            <img style="margin-left:80px; height:200px; width:200px" class="img-circle img-responsive img-center" src="@src" alt="">
+            <h3>
+                @item.nombre @item.apellido
+                <small>@item.puesto</small>
+            </h3>
+            <p>@item.Departamentos.nombre</p>
+
+            <a href="@Url.Action("Detalles", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detalles</a>
+            <a href="@Url.Action("Editar", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Editar</a>
+            <button class="btn btn-sm btn-danger" onclick="deleteProductById(@item.EmpleadoID)"><i class="fa fa-trash"></i> Eliminar</button>
+
+
+        </div>
+    }
+
+<script>
+    function deleteProductById(id) {
+        $("#confirmModal #title").text("Eliminar Empleado");
+        $("#confirmModal").modal('show');
+        $("#confirmModal #btnOk").click(function (e) {
+            $.ajax({
+                url: "@Url.Action("Borrar", "Empleados")" +"/"+ id,
+                type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                window.location.reload();
+                $("#confirmModal").modal('hide');
+            },
+            error: function (err) {
+                alert("Error: " + err.responseText);
+            }
+        });
+
+        e.preventDefault();
+    });
+    }
+</script>
+
+<!--Confirmation modal-->
+<div id="confirmModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    Quiere eliminar este empleado ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

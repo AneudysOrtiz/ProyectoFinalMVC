@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SistemaRH3.Models.Asistencias>
+
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Registro</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Registros</strong></div>
+}
+
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            Empleado
+        </th>
+        <th>
+            Cantidad de Ausencias
+        </th>
+        <th>
+            Desde
+        </th>
+        <th>
+            Hasta
+        </th>
+        <th>Accion</th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(m=>m.AsistenciaID))
+    {
+        <tr>
+            <td>
+                @item.Empleados.nombre @item.Empleados.apellido
+            </td>
+            <td>
+                @item.cantidad
+            </td>
+            <td>
+                @item.fechaDesde.ToString("d-MM-yyyy")
+            </td>
+            <td>
+                @item.fechaHasta.ToString("d-MM-yyyy")
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger" onclick="deleteProductById(@item.AsistenciaID)">Eliminar</button>
+            </td>
+        </tr>
+    }
+
+</table>

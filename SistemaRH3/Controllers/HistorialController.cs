@@ -18,6 +18,21 @@ namespace SistemaRH3.Controllers
             return View(db.Historial);
         }
 
+        public ActionResult Buscar()
+        {
+            return View(db.Historial);
+        }
+
+        
+        [HttpPost]
+        public ActionResult BuscarHistorial(DateTime desde, DateTime hasta)
+        {
+            ViewBag.desde = desde;
+            ViewBag.hasta = hasta;
+
+            return View("Buscar", db.Historial);
+        }
+
         
     }
 }

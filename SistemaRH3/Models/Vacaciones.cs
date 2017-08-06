@@ -26,6 +26,8 @@ namespace SistemaRH3.Models
         [Display(Name = "Estado")]
         public string estado { get; set; }
 
+        public DateTime? fechaSolicitud { get; set; }
+
         public virtual Empleados Empleados { get; set; }
     }
 }

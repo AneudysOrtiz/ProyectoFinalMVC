@@ -19,6 +19,14 @@ namespace SistemaRH3.Models
         [Display(Name = "Departamento de Vacante")]
         public int DepartamentoID { get; set; }
 
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Display(Name = "Puesto")]
+        public string puesto { get; set; }
+
+        public string estadoVacante { get; set; }
+
+        public DateTime? fechaVacante { get; set; }
+
         public virtual Departamentos Departamentos { get; set; }
         public virtual ICollection<Candidatos> Candidatos { get; set; }
     }

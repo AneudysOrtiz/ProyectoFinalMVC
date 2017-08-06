@@ -14,7 +14,8 @@
 
                 @foreach(var item in Model)
                 {
-                    double pct = emp.porcentajeEmps(item.DepartamentoID);
+                    double pct = Math.Round(emp.porcentajeEmps(item.DepartamentoID));
+                    
 
                    @: { y: '@item.nombre', a: '@pct' },
                 }
