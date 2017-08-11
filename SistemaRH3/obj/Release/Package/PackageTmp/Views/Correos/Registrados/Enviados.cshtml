@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SistemaRH3.Models.Correos>
+    @{ 
+        SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+        int total = db.Correos.Count();
+        int enviados = db.Correos.Where(c => c.estado == "Enviado").Count();
+        int archivados = db.Correos.Where(c => c.estado == "Archivado").Count();
+    }
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <button class="list-group-item " id="btnTotal" onclick="Rgtotal()">Todos los correos <span class="badge">@total</span></button>
+            <button class="list-group-item active" id="btnActivas" onclick="Rgenviados()">Correos Enviados <span class="badge">@enviados</span></button>
+            <button class="list-group-item" id="btnPendientes" onclick="Rgarchivados()">Correos Archivados <span class="badge">@archivados</span></button>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        @foreach (var item in Model.OrderByDescending(m => m.CorreoID))
+        {
+            if (item.estado == "Enviado")
+            {
+
+
+
+            <div class="well">
+                <div class="well">
+
+                    <strong>Destinatario:</strong> @item.Empleados.nombre @item.Empleados.apellido
+                    <br /><strong>Asunto: </strong> @item.asunto
+                    <span class="pull-right">Enviado el @item.fecha </span>
+                    
+                    <br /><p>
+                    <strong> Mensaje: </strong>
+                    @Html.Raw(item.mensaje)
+                    </p>
+                    <br /><strong>Estado:</strong> @item.estado
+                    <span class="pull-right">
+                        <button type="button"  onclick="reenviar(@item.CorreoID,'registrado')" 
+                                 class="btn btn-warning"><i class="fa fa-send"></i> Reenviar</button>
+
+                        <button onclick="deleteProductById(@item.CorreoID,'registrado')"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                        </button>
+                    </span>
+
+                </div>
+
+            </div>
+            }
+        }
+
+    </div>
+
+</div>
+

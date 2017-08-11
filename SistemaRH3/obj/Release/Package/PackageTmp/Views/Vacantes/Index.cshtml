@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<SistemaRH3.Models.Vacantes>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Vacantes";
+    SistemaRH3.Models.Vacantes vacantes = new SistemaRH3.Models.Vacantes();
 }
-
+<script src="~/Content/js/jquery.js"></script>
  <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-12">
@@ -12,38 +13,176 @@
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <a class="btn btn-sm btn-primary" href="@Url.Action("Create","Vacantes")">Registrar Vacante</a>
-                <a class="btn btn-sm btn-warning" href="#">Buscar Vacante</a>
+                <a class="btn btn-sm btn-primary" data-toggle="modal" 
+                   data-target="#productModal"><i class="fa fa-plus"></i> Registrar Vacante</a>
+                <a class="btn btn-sm btn-warning" href="@Url.Action("Buscar","Vacantes")"><i class="fa fa-search"></i> Buscar Vacante</a>
+                <button type="button" class="btn btn-sm btn-success" onclick="imprimir()"><i class="fa fa-print"> </i> Imprimir</button>
             </li>
         </ol>
     </div>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Departamentos.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cantidad)
-        </th>
-        <th></th>
-    </tr>
+<script>  
+    function imprimir() {
+        $(".btn").hide();
+        window.print();
+        $(".btn").show();
+    }
+</script>
+<div class="col-md-12" >
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departamentos.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cantidad)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.VacanteID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.VacanteID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.VacanteID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.OrderByDescending(c=>c.VacanteID))
+    {
+        
+        <div class="well">
+            <div class="well">
 
-</table>
+                <strong>Departamento:</strong> @item.Departamentos.nombre 
+                <span class="pull-right"><strong>Cantidad de puestos: </strong> @item.cantidad </span>
+                <p>
+                    <strong>Puesto:</strong> @item.puesto
+                    <br /><strong>Estado:</strong> @item.estadoVacante                  
+                </p>
+                <br /><strong>Fecha de Vacante:</strong> @item.fechaVacante
+                
+                <span class="pull-right">
+                    <button type="button" data-toggle="modal" onclick="elId(@item.VacanteID)"
+                            data-target="#pruebaModal"
+                            class="btn btn-sm btn-warning">
+                        <i class="fa fa-pencil"></i> Cambiar estado
+                    </button>
+
+                    <button onclick="deleteProductById(@item.VacanteID)"
+                            class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-trash"></span> Eliminar
+                    </button>
+                </span>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<div id="pruebaModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><label>Cambiar Estado de Vacante</label></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="radio radio-inline">
+                        <label><input type="radio" id="estadoNuevo" name="estadoNuevo" value="Activa">Activa</label>
+                    </div>
+                    <div class="radio radio-inline">
+                        <label><input type="radio" id="estadoNuevo" name="estadoNuevo" value="Agotada">Agotada</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnSave2" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Confirmation modal-->
+<div id="confirmModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title">Eliminar Registro</label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    Desea eliminar este registro ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    var idVacante = 0;
+
+    function elId(id) {
+        idVacante = id;
+        
+    }
+
+    $("#btnSave2").click(function (e) {
+        
+       var estado=  $("#estadoNuevo:checked").val();
+            $.ajax({
+                url: '@Url.Action("CambiarEstado","Vacantes")',
+                type: 'POST',
+                dataType: 'json',
+                data: {id: idVacante, estadoNuevo: estado},
+                success: function (data) {
+                    window.location.reload();
+                    $("#estadoModalTotal").modal('hide');
+
+                },
+                error: function (err) {
+                    alert("Error: " + err.responseText);
+                }
+            })
+
+
+    });
+
+
+    function deleteProductById(id) {
+
+        $("#confirmModal #title").text("Eliminar Vacante");
+        $("#confirmModal").modal('show');
+        $("#confirmModal #btnOk").click(function (e) {
+            $.ajax({
+                url: "@Url.Action("Borrar", "Vacantes")" + "/" + id,
+                type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                window.location.reload();
+                $("#confirmModal").modal('hide');
+            },
+            error: function (err) {
+                alert("Error: " + err.responseText);
+            }
+        });
+
+        e.preventDefault();
+    });
+    }
+
+</script>
+
+
+
+
+
+
+<div id="productModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label>Registrar Vacantes</label></h4>
+            </div>
+
+            @Html.Partial("Agregar", vacantes)
+
+        </div>
+    </div>
+</div>

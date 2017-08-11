@@ -213,6 +213,7 @@
     <Compile Include="Controllers\HistorialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\VacacionesController.cs" />
     <Compile Include="Controllers\VacantesController.cs" />
     <Compile Include="DAL\GeneralContext.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\keyAttribute.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Models\Vacaciones.cs" />
     <Compile Include="Models\Vacantes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -317,6 +319,14 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\miaplicacionunica - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\miaplicacionunica - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sistemahrm - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SistemaRRHH - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\SistemaRRHH - Web Deploy.pubxml" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
@@ -780,11 +790,13 @@
     <Content Include="Views\Configuracion\Interfaz.cshtml" />
     <Content Include="Views\Configuracion\BarraHerramientas.cshtml" />
     <Content Include="Views\Configuracion\Correo.cshtml" />
+    <Content Include="Views\Usuarios\MiCuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\CV\" />
-    <Folder Include="Content\Images\" />
+    <Folder Include="uploads\cv\" />
+    <Folder Include="uploads\pictures\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

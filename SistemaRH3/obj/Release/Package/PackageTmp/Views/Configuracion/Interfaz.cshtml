@@ -1,0 +1,147 @@
+﻿@{ViewBag.Title = "Configuracion Interfaz"; }
+<!-- Page Heading -->
+<script src="~/Content/js/jquery.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Configuracion <small>Interfaz</small>
+        </h1>
+        
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a class="list-group-item active" href="@Url.Action("Interfaz","Configuracion")">Fondo de Interfaz </a>
+            <a class="list-group-item" href="@Url.Action("BarraHerramientas","Configuracion")">Fondo Barra de Herramientas </a>                       
+            <a class="list-group-item" href="@Url.Action("Correo","Configuracion")" >Configurar Correo </a>
+            <a class="list-group-item" href="@Url.Action("Register","Account")">Registro de Usuarios</a> 
+        </div>
+    </div>
+
+    <div class="col-md-9">
+       
+
+        <form>
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/wormz.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px;" src="https://www.toptal.com/designers/subtlepatterns/patterns/wormz.png" />
+                </label>
+            </div>
+
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/vertical-waves.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px;" src="https://www.toptal.com/designers/subtlepatterns/patterns/vertical-waves.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/whirlpool.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/whirlpool.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/pow-star.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/pow-star.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/topography.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/topography.png" />
+                </label>
+            </div>
+
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/retina_wood.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/retina_wood.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/pixel_weave.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/pixel_weave.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/crisp_paper_ruffles.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/crisp_paper_ruffles.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/crisp_paper_ruffles.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/crisp_paper_ruffles.png" />
+                </label>
+            </div>
+
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/wood_pattern.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/wood_pattern.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/bgnoise_lg.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/bgnoise_lg.png" />
+                </label>
+            </div>
+
+            <div class="col-md-3">
+                <label class="radio">
+                    <input type="radio" value="https://www.toptal.com/designers/subtlepatterns/patterns/cloudy-day.png" id="choice" name="choice" />
+                    <img class="img-thumbnail" style="height:150px;width:150px" src="https://www.toptal.com/designers/subtlepatterns/patterns/cloudy-day.png" />
+                </label>
+            </div>
+
+            <div class="col-md-4">
+                <button style="margin-left:310px;" id="btnSave" class="btn btn-primary btn-lg" type="button">Guardar Cambios</button>
+            </div>
+
+
+
+
+            <script>
+
+                $("#btnSave").click(function (e) {
+
+                    var fondo = $("#choice:checked").val();
+                    
+                    $.ajax({
+                        url: '@Url.Action("CambiarFondo","Configuracion")',
+                        type: 'POST',
+                        data: { fondo: fondo },
+                        success: function (data) {
+                            alert("Fondo Cambiado");
+                            window.location.reload();
+                        },
+                        error: function (err) {
+                            alert("No se pudo cambiar el fondo: " + err.responseText);
+                        }
+                    })
+
+
+                });
+            </script>
+
+        </form>
+    </div>
+
+</div>

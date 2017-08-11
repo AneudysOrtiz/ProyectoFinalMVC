@@ -19,7 +19,7 @@
                        @foreach (var item in Model.OrderBy(m => m.FechaNac.Month))
                        {
 
-
+                           //comparando que el mes de nacimiento mayor  al actual
                            if (@item.FechaNac.Month.CompareTo(DateTime.Now.Month) > 0)
                            {
                                TimeSpan edad = DateTime.Now - @item.FechaNac;
@@ -47,7 +47,33 @@
                                }
                            }
 
+                        
+
                        }
+
+@foreach (var item in Model.OrderBy(m => m.FechaNac.Month))
+{
+
+    //comparando que el mes de nacimiento sea menor al actual
+    if (@item.FechaNac.Month.CompareTo(DateTime.Now.Month) <= 0)
+    {
+        
+
+        TimeSpan edad = DateTime.Now - @item.FechaNac;
+
+        <tr>
+            <td>@item.nombre @item.apellido</td>
+            <td>
+                @(item.FechaNac.ToString("dd MMMM"))
+            </td>
+            <td>@(edad.Days / 365 + 1) años</td>
+        </tr>
+    }
+    
+}
+
+                 
+
                     </tbody>
                 </table>
             </div>

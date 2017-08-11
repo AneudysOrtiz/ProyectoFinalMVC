@@ -1,5 +1,14 @@
 ﻿@model IEnumerable<SistemaRH3.Models.Empleados>
 
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Empleado</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Empleados</strong></div>
+}
+
 
 
     @foreach (var item in Model)
@@ -7,7 +16,8 @@
         string src = "";
         if (item.imagen != null)
         {
-            src = item.imagen;
+            //src = Url.Content("~/uploads/pictures/" + item.foto);
+            src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
         }
         else if (item.sexo == "Masculino")
         {
@@ -38,3 +48,46 @@
         </div>
     }
 
+<script>
+    function deleteProductById(id) {
+        $("#confirmModal #title").text("Eliminar Empleado");
+        $("#confirmModal").modal('show');
+        $("#confirmModal #btnOk").click(function (e) {
+            $.ajax({
+                url: "@Url.Action("Borrar", "Empleados")" +"/"+ id,
+                type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                window.location.reload();
+                $("#confirmModal").modal('hide');
+            },
+            error: function (err) {
+                alert("Error: " + err.responseText);
+            }
+        });
+
+        e.preventDefault();
+    });
+    }
+</script>
+
+<!--Confirmation modal-->
+<div id="confirmModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    Quiere eliminar este empleado ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

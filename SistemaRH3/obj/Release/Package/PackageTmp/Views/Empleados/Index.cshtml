@@ -24,36 +24,14 @@
 </div>
 
 
-
-<div id="empModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><label>Agregar Empleado</label></h4>
-            </div>
-            <div class="modal-body">
-
-                @Html.Partial("Create", Emple)
-            </div>
-                  
-                <div class="modal-footer">
-                    
-                    <button type="submit" id="btnSave" class="btn btn-primary">Guardar</button>
-                    <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                </div>
-            
-        </div>
-    </div>
-</div>
-
 <script>
     function deleteProductById(id) {
         $("#confirmModal #title").text("Eliminar Empleado");
         $("#confirmModal").modal('show');
         $("#confirmModal #btnOk").click(function (e) {
             $.ajax({
-                url: "@Url.Action("Borrar", "Empleados")" +"/"+ id,
+                url: "@Url.Action("Borrar", "Empleados")" + "/" + id,
+                
                 type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -94,13 +72,15 @@
 
 <div class="row">
 
-    @foreach (var item in Model.OrderByDescending(m=>m.fechaRegistro))
+    @foreach (var item in Model.OrderByDescending(m=>m.EmpleadoID))
     {
         string src= "";
         if (item.imagen != null)
         {
-            src = item.imagen;
-        }else if (item.sexo == "Masculino")
+            src = Url.Content("~/uploads/pictures/" + item.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
+        }
+        else if (item.sexo == "Masculino")
         {
             src = Url.Content("~/Content/hombre.png");
         }
@@ -119,7 +99,8 @@
                 @item.nombre @item.apellido
                 <small>@item.puesto</small>
             </h3>
-            <p>@item.Departamentos.nombre</p>
+            <p>@item.Departamentos.nombre
+            <br />(@item.estado)</p>
             
             <a href="@Url.Action("Detalles", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Detalles</a>
             <a href="@Url.Action("Editar", "Empleados", new { id = item.EmpleadoID})" class="btn btn-sm btn-warning" ><i class="fa fa-edit"></i> Editar</a>

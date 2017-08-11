@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SistemaRH3.Controllers
 {
+    [Authorize]
     public class HistorialController : Controller
     {
         private GeneralContext db = new GeneralContext();

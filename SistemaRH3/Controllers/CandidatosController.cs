@@ -45,8 +45,8 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file.FileName); //getting only file name 
                             fileName = candidatos.nombre.ToString() + candidatos.apellido.ToString() + fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/Images"), fileName);
-                            candidatos.imagen = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/pictures"), fileName);
+                            candidatos.imagen = fileName;
                             file.SaveAs(path);
 
                         }
@@ -66,8 +66,9 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file2.FileName); //getting only file name 
                             fileName = candidatos.nombre.ToString() + candidatos.apellido.ToString() + fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/CV"), fileName);
-                            candidatos.cv = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/cv"), fileName);
+
+                            candidatos.cv = fileName;
                             file2.SaveAs(path);
 
                         }

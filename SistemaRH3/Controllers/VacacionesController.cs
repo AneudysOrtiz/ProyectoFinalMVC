@@ -17,28 +17,14 @@ namespace SistemaRH3.Controllers
     {
         private GeneralContext db = new GeneralContext();
 
-        // GET: Vacaciones
+        
         public ActionResult Index()
         {
             var vacacioness = db.Vacacioness.Include(v => v.Empleados);
             return View( vacacioness.ToList());
         }
 
-        // GET: Vacaciones/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Vacaciones vacaciones = db.Vacacioness.Find(id);
-            if (vacaciones == null)
-            {
-                return HttpNotFound();
-            }
-            return View(vacaciones);
-        }
-
+     
 
             //registrar vacaciones   
         [HttpPost]
@@ -74,7 +60,7 @@ namespace SistemaRH3.Controllers
 
 
                 db.SaveChanges();
-                Historial("Se registro vaciones para: ", nombre, apellido);
+                Historial("Se registro vaciones para ", nombre, apellido);
                 return RedirectToAction("Index");
             }
             
@@ -165,70 +151,13 @@ namespace SistemaRH3.Controllers
 
                 db.Vacacioness.Remove(product);
                 db.SaveChanges();
-                Historial("Se elimino vaciones de: ", nombre, apellido);
+                Historial("Se elimino vaciones de ", nombre, apellido);
             }
 
             return Json(product, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Vacaciones/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Vacaciones vacaciones = db.Vacacioness.Find(id);
-            if (vacaciones == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "cedula", vacaciones.EmpleadoID);
-            return View(vacaciones);
-        }
 
-        // POST: Vacaciones/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "VacacionesID,EmpleadoID,fechaInicio,fechaFin,estado")] Vacaciones vacaciones)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(vacaciones).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.EmpleadoID = new SelectList(db.Empleados, "EmpleadoID", "cedula", vacaciones.EmpleadoID);
-            return View(vacaciones);
-        }
-
-        // GET: Vacaciones/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Vacaciones vacaciones =  db.Vacacioness.Find(id);
-            if (vacaciones == null)
-            {
-                return HttpNotFound();
-            }
-            return View(vacaciones);
-        }
-
-        // POST: Vacaciones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Vacaciones vacaciones = db.Vacacioness.Find(id);
-            db.Vacacioness.Remove(vacaciones);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

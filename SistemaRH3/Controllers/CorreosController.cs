@@ -340,7 +340,7 @@ namespace SistemaRH3.Controllers
 
                 db.Correos.Add(correo);
                 db.SaveChanges();
-                Historial("Se envio un correo a: ", product.nombre, product.apellido);
+                Historial("Se envio un correo a ", product.nombre, product.apellido);
             }
 
 

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SistemaRH3.Models.Vacantes>
+
+@{
+    ViewBag.Title = "Buscar Vacante";
+}
+    
+<script src="~/Content/js/jquery.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Buscar <small>Vacantes</small>
+        </h1>
+    </div>
+</div>
+
+<div id="menu" style="background-color:#f5f5f5; padding:8px 15px; border-radius:4px;margin-bottom:20px" class="row">
+
+    <div class="col-md-3">
+        <a class="btn btn-sm btn-default"
+           href="@Url.Action("Index", "Vacantes")">
+            <span class="glyphicon glyphicon-arrow-left"></span> Volver
+        </a>
+
+        <button class="btn btn-sm btn-info"
+           onclick="imprimir()"><span class="glyphicon glyphicon-print"></span> Exportar PDF</button>
+
+    </div>
+    <div style="margin-left:282px" class="col-md-6 text-right">
+        <form class="form form-inline" method="post">
+
+            <label>Buscar por: </label>
+            <select style="width:30%" name="filtro" id="filtro" class="form-control">
+                <option value="departamento">Departamento</option>
+                <option value="puesto">Puesto</option>
+                
+            </select>
+
+            <input style="width:35%" required type="text" name="parametro" id="parametro" placeholder="Vacante..." class="form-control" />
+            <button type="button" name="enviar" id="enviar" class="btn btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function imprimir() {
+        $(".btn").hide();
+        $("#menu").hide();
+        $("#div1").hide();
+        $("#div2").hide();
+        window.print();
+        $(".btn").show();
+        $("#menu").show();
+        $("#div1").show();
+        $("#div2").show();
+    }
+</script>
+
+<script>
+    $("#enviar").click(function () {
+        if ($("#parametro").val() <= 0) {
+            alert("Debe especificar un parametro de busqueda");
+        } else {
+            $.ajax({
+
+                method: "POST",
+                data: { filtro: $("#filtro").val(), parametro: $("#parametro").val() },
+
+                url: "@Url.Action("BuscarVacante", "Vacantes")",
+                success: function (resultado) {
+                    
+                    $("#contenido").html(resultado);
+
+                }, error: function (msg) {
+                    console.log(msg);
+                    alert("Error al buscar" + msg);
+                }
+            });
+        }
+
+    });
+</script>
+
+<div id="contenido">
+
+</div>
+

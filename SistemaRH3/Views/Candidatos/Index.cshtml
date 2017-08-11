@@ -52,12 +52,16 @@
     @foreach(var item in Model)
     {
 
-        string src = "";
+        string src = "",cv="";
         if (item.imagen != null)
         {
-            src = item.imagen;
+            src = Url.Content("~/uploads/pictures/" + item.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
+
+            cv = Url.Content("~/uploads/cv/" + item.imagen);
+           // cv = "http://sistemahrm.azurewebsites.net/uploads/cv/" + item.cv;
         }
-        
+
         else
         {
             src = Url.Content("~/Content/hombre.png");
@@ -72,7 +76,7 @@
                     <strong>Candidato: </strong>@item.nombre @item.apellido
                     <br /><strong>Vacante a la que aplica: </strong>@item.Vacantes.puesto en @item.Vacantes.Departamentos.nombre
                     <br /><strong>Contacto: </strong>@item.telefono -  @item.email
-                    @if (item.cv != null) { <br /><strong>Anexo: </strong><a href="@item.cv" target="_blank">Curriculum</a>}
+                    @if (item.cv != null) { <br /><strong>Anexo: </strong><a href="@cv" target="_blank">Curriculum</a>}
                     <br /><br /><strong>Fecha de aplicacion: </strong>@item.fechaAp
                 
                 <span class="pull-right">

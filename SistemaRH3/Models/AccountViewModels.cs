@@ -77,7 +77,7 @@ namespace SistemaRH3.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPassword { get; set; }
     }
 

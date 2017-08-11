@@ -1,0 +1,115 @@
+﻿@model IEnumerable<SistemaRH3.Models.Historial>
+
+@{
+    ViewBag.Title = "Buscar Historial";
+    DateTime desde = ViewBag.desde;
+    DateTime hasta = ViewBag.hasta;
+}
+<script src="~/Content/js/jquery.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Buscar <small>Historial</small>
+        </h1>
+    </div>
+</div>
+
+<div style="background-color:#f5f5f5; padding:8px 15px; border-radius:4px;margin-bottom:20px" class="row">
+
+    <div class="col-md-3">
+        <a class="btn btn-sm btn-default"
+           href="@Url.Action("Index", "Historial")">
+            <span class="glyphicon glyphicon-arrow-left"></span> Volver
+        </a>
+
+        <a class="btn btn-sm btn-info"
+           href="#"><span class="glyphicon glyphicon-print"></span>Exportar PDF</a>
+
+    </div>
+    <div style="margin-left:282px" class="col-md-6 text-right">
+        <form class="form form-inline" method="post">
+
+            <label>Desde: </label>
+            <input type="date" id="desde"name="desde"class="form-control" />
+
+            <label>Hasta: </label>
+            <input type="date" id="hasta"name="hasta" class="form-control" />
+             <button type="button" name="enviar" id="enviar" class="btn btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $("#enviar").click(function () {
+
+        $.ajax({
+
+            method: "POST",
+            data: { desde: $("#desde").val(), hasta: $("#hasta").val() },
+
+            url: "@Url.Action("BuscarHistorial", "Historial")",
+            success: function (resultado) {
+                if (resultado)
+                    $("#contenido").html(resultado);
+
+            }, error: function (msg) {
+                console.log(msg);
+                alert("Error al buscar" + msg);
+            }
+        });
+
+    });
+    
+</script>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Descripcion</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            if (desde != null && hasta == null)
+            {
+                if (desde.CompareTo(item.fecha) <= 0)
+                {
+                    <tr>
+                        <td>@item.fecha</td>
+                        <td>@item.descripcion @item.elementoNombre @item.elementoApellido</td>
+                    </tr>
+                }
+            }
+            else if (desde == null && hasta != null)
+            {
+                if (hasta.CompareTo(item.fecha) >= 0)
+                {
+                    <tr>
+                        <td>@item.fecha</td>
+                        <td>@item.descripcion @item.elementoNombre @item.elementoApellido</td>
+                    </tr>
+                }
+            }
+            else if (desde != null && hasta != null)
+            {
+                if (desde.CompareTo(item.fecha) <= 0 && hasta.CompareTo(item.fecha) >= 0)
+                {
+                    <tr>
+                        <td>@item.fecha</td>
+                        <td>@item.descripcion @item.elementoNombre @item.elementoApellido</td>
+                    </tr>
+                }
+            }
+
+        }
+    </tbody>
+</table>
+
+<div id="contenido">
+
+</div>

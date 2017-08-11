@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SistemaRH3.Models.Departamentos>
+@{  SistemaRH3.Controllers.EmpleadosController emp = new SistemaRH3.Controllers.EmpleadosController();}
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Departamento</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Departamentos</strong></div>
+}
+
+
+@foreach (var item in Model)
+            {
+                bool hasEmp = false;
+    <div class="well">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <strong>@item.nombre</strong>
+                <span class="pull-right">@emp.cantidadEmp(item.DepartamentoID) empleados</span>
+                <p>@item.funcion</p>
+
+                @if (emp.cantidadEmp(item.DepartamentoID) > 0)
+                {
+                    hasEmp = true;
+                }
+                <span class="pull-right"><button onclick="deleteProductById(@item.DepartamentoID, @hasEmp)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button></span>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    // Delete product by id
+    function deleteProductById(id, hasEmp) {
+
+        if(hasEmp) {
+            alert("No puede eliminar este departamento porque tiene empleados registrados!");
+        } else {
+
+            $("#confirmModal #title").text("Eliminar Departamento");
+            $("#confirmModal").modal('show');
+            $("#confirmModal #btnOk").click(function (e) {
+                $.ajax({
+                    url: "@Url.Action("Borrar", "Departamentos")" + "/" + id,
+                    type: "POST",
+                dataType: 'json',
+                success: function (data) {
+                    window.location.reload();
+                    $("#confirmModal").modal('hide');
+                },
+                error: function (err) {
+                    alert("Error: " + err.responseText);
+                }
+            });
+
+            e.preventDefault();
+        });
+    }
+            
+    }
+</script>

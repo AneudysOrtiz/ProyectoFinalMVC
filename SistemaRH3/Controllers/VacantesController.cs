@@ -17,34 +17,14 @@ namespace SistemaRH3.Controllers
     {
         private GeneralContext db = new GeneralContext();
 
-        // GET: Vacantes
-        public async Task<ActionResult> Index()
+        
+        public ActionResult Index()
         {
             var vacantes = db.Vacantes.Include(v => v.Departamentos);
-            return View(await vacantes.ToListAsync());
+            return View(vacantes.ToList());
         }
 
-        // GET: Vacantes/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Vacantes vacantes = await db.Vacantes.FindAsync(id);
-            if (vacantes == null)
-            {
-                return HttpNotFound();
-            }
-            return View(vacantes);
-        }
-
-        // GET: Vacantes/Create
-        public ActionResult Create()
-        {
-            ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "nombre");
-            return View();
-        }
+       
 
         //buscar vacante
         public ActionResult Buscar(List<Vacantes> vacantes)
@@ -158,7 +138,7 @@ namespace SistemaRH3.Controllers
                 //string apellido = product2.apellido;
                 db.Vacantes.Remove(product);
                 db.SaveChanges();
-                Historial("Se elimino la vacante de: ", product.puesto, "en "+nombre);
+                Historial("Se elimino la vacante de ", product.puesto, "en "+nombre);
             }
 
             return Json(product, JsonRequestBehavior.AllowGet);
@@ -167,6 +147,22 @@ namespace SistemaRH3.Controllers
         //cambiar estado de vacante
         [HttpPost]
         public ActionResult CambiarEstado(int id, string estadoNuevo)
+        {
+            var product = db.Vacantes.ToList().Find(x => x.VacanteID == id);
+            product.estadoVacante = estadoNuevo;
+            db.Entry(product).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new
+            {
+                Estatus = "OK"
+            });
+        }
+
+
+        //cambiar estado de vacante
+        [HttpPost]
+        public ActionResult CambiarEstado2(int id, string estadoNuevo)
         {
             var product = db.Vacantes.ToList().Find(x => x.VacanteID == id);
             product.estadoVacante = estadoNuevo;
@@ -192,7 +188,7 @@ namespace SistemaRH3.Controllers
                 vacantes.fechaVacante = DateTime.Now;
                 db.Vacantes.Add(vacantes);
                 db.SaveChanges();
-                Historial("Se agrego vacante de: ", vacantes.puesto, "en " + nombre);
+                Historial("Se agrego vacante de ", vacantes.puesto, "en " + nombre);
                 return RedirectToAction("Index");
             }
 

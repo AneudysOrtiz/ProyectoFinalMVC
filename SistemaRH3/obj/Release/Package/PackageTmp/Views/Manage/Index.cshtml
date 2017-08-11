@@ -1,29 +1,13 @@
 ﻿@model SistemaRH3.Models.IndexViewModel
 @{
-    ViewBag.Title = "Mi Cuenta";
+    
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
 }
 
-<style>
-    body {
-        background: url(https://www.toptal.com/designers/subtlepatterns/patterns/wood_pattern.png);
-    }
-</style>
 
-  <!-- Page Heading -->
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">
-            Mi cuenta <small>Configuracion</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li class="active">
-                <i class="fa fa-dashboard"></i> Inicio / Mi Cuenta
-            </li>
-        </ol>
-    </div>
-</div>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+@Html.Partial("~/Views/Usuarios/MiCuenta.cshtml",db.Usuarios.ToList())
+
 <div>
     
     <dl class="dl-horizontal">
@@ -40,6 +24,17 @@
             }
             ]
         </dd>
+
+        <dt>Mi Perfil:</dt>
+        <dd>
+            [
+            
+               <a href="@Url.Action("Editar", "Usuarios")">Editar Informacion</a>           
+            ]
+        </dd>
        
     </dl>
 </div>
+
+
+

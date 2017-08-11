@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<SistemaRH3.Models.Historial>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Historial Completo";
 }
+<script src="~/Content/js/jquery.js"></script>
 
   <!-- Page Heading -->
 <div class="row">
@@ -10,19 +11,49 @@
         <h1 class="page-header">
             Historial <small>Detalles</small>
         </h1>
-        <ol class="breadcrumb">
-            <li class="active">
-                <a class="btn btn-sm btn-default"
-                   href="@Url.Action("Index", "Home")">
-                    <span class="glyphicon glyphicon-arrow-left"></span> Volver
-                </a>
-
-                <a class="btn btn-sm btn-success"
-                   href="#"><span class="glyphicon glyphicon-print"></span> Exportar PDF</a>
-            </li>
-        </ol>
+       
     </div>
 </div>
+
+<div style="background-color:#f5f5f5; padding:8px 15px; border-radius:4px;margin-bottom:20px" class="row">
+
+    <div class="col-md-3">
+        <a class="btn btn-sm btn-default" id="volver"
+           href="@Url.Action("Index", "Home")">
+            <span class="glyphicon glyphicon-arrow-left"></span> Volver
+        </a>
+
+        <button  class="btn btn-sm btn-info"
+           onclick="imprimir()" id="export"><span class="glyphicon glyphicon-print" ></span> Exportar PDF</button>
+
+    </div>
+
+
+    <script>
+        function imprimir() {
+            $("#volver").hide();
+            $("#export").hide();
+            window.print();
+            $("#volver").show();
+            $("#export").show();
+
+        }
+    </script>
+
+
+    @*<div style="margin-left:282px" class="col-md-6 text-right">
+        <form class="form form-inline" method="post">
+
+            <label>Desde: </label>
+            <input type="date" id="desde" name="desde" class="form-control" />
+
+            <label>Hasta: </label>
+            <input type="date" id="hasta" name="hasta" class="form-control" />
+            <button type="button" name="enviar" id="enviar" class="btn btn-success"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+        </form>
+    </div>*@
+</div>
+
 
 
 <table class="table table-hover">
@@ -34,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var item in Model)
+        @foreach(var item in Model.OrderByDescending(d=>d.fecha))
         {
             <tr>
                 <td>@item.fecha</td>

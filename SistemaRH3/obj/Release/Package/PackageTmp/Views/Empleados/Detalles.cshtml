@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "Detalles";
 }
-
+<script src="~/Content/js/jquery.js"></script>
+<script src="~/Scripts/printThis.js"></script>
 
 <!-- Page Heading -->
 <div class="row">
@@ -23,17 +24,21 @@
                     <span class="glyphicon glyphicon-pencil"></span> Editar
                 </a>
 
-                <a class="btn btn-sm btn-success"
-                   href="#"><span class="glyphicon glyphicon-print"></span> Exportar PDF</a>
-            </li>
+                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalPrint">
+                    <span class="glyphicon glyphicon-print"></span> Exportar PDF
+                </button></li>
         </ol>
     </div>
 </div>
 
+
+
  @{string src = ""; }
         @if (Model.imagen != null)
         {
-            src = Model.imagen;
+            src = Url.Content("~/uploads/pictures/" + Model.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + Model.imagen;
+
         }
         else if (Model.sexo == "Masculino")
         {
@@ -49,100 +54,234 @@
         }
 
 
-<div class="row" >
-    <div class="col-md-3">
-        <img style="margin-left:20px; height:200px; width:200px"class="img-circle img-responsive img-center" src="@src"/>
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <img style="margin-left:20px; height:200px; width:200px" class="img-circle img-responsive img-center" src="@src" />
+        </div>
+
+        <div class="col-md-6">
+            <div class="well">
+                <h2>
+                    @Html.DisplayFor(model => model.nombre) @Html.DisplayFor(model => model.apellido)
+                    <small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small>
+
+                </h2>
+                <ul style="list-style-type:none">
+                    <li><span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(model => model.email)</li>
+                    <li><span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(model => model.telefono)</li>
+                    <li><span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(model => model.direccion)</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <h3>Informacion Personal</h3>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt><strong>Cedula: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.cedula)</dd>
+
+                <dt><strong>Fecha de Nacimiento: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.FechaNac)</dd>
+
+                <dt><strong>Sexo: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.sexo)</dd>
+
+                <dt><strong>Estado Civil: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.estadoCivil)</dd>
+            </dl>
+        </div>
     </div>
 
-    <div class="col-md-6">   
-        <div class="well">
-            <h2>@Html.DisplayFor(model => model.nombre) @Html.DisplayFor(model => model.apellido)
-                <small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small>
+    <hr />
 
-            </h2>
-            <ul style="list-style-type:none">
-                <li><span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(model => model.email)</li>
-                <li><span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(model => model.telefono)</li>
-                <li><span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(model => model.direccion)</li>
-            </ul>          
-       </div>    
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <h3>Informacion Academica</h3>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt><strong>Nivel Alcanzado: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.nivelAlcanzado)</dd>
+
+                <dt><strong>Titulo Obtenido: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.titulo)</dd>
+
+
+                <dt><strong>Estudios Completados: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.estudios)</dd>
+            </dl>
+        </div>
     </div>
 
-</div>
-<hr />
-<div class="row">
-    <div class="col-md-3 text-center">
-        <h3>Informacion Personal</h3>
-    </div>
-    <div class="col-md-4">
-        <dl class="dl-horizontal">
-            <dt><strong>Cedula: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.cedula)</dd>
+    <hr />
 
-            <dt><strong>Fecha de Nacimiento: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.FechaNac)</dd>
-
-            <dt><strong>Sexo: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.sexo)</dd>
-
-            <dt><strong>Estado Civil: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.estadoCivil)</dd>
-        </dl>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-3 text-center">
-        <h3>Informacion Academica</h3>
-    </div>
-    <div class="col-md-4">
-        <dl class="dl-horizontal">
-            <dt><strong>Nivel Alcanzado: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.nivelAlcanzado)</dd>
-
-            <dt><strong>Titulo Obtenido: </strong></dt>
-            <dd>@Html.DisplayFor(model=>model.titulo)</dd>
-                       
-
-            <dt><strong>Estudios Completados: </strong></dt>
-            <dd>@Html.DisplayFor(model=>model.estudios)</dd>
-        </dl>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-3 text-center">
-        <h3>Informacion Laboral</h3>
-    </div>
-    <div class="col-md-4">
-        <dl class="dl-horizontal">
-            @if (Model.fechaRegistro != null)
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <h3>Informacion Laboral</h3>
+        </div>
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                @if (Model.fechaRegistro != null)
             {
-                <dt><strong>Fecha de Ingreso: </strong></dt>
-                <dd>@Html.DisplayFor(model => model.fechaRegistro)</dd>
+                    <dt><strong>Fecha de Ingreso: </strong></dt>
+                    <dd>@Html.DisplayFor(model => model.fechaRegistro)</dd>
 
-            }
-           
-            <dt><strong>Departamento: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.Departamentos.nombre)</dd>
+                }
 
-            <dt><strong>Puesto: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.puesto)</dd>
+                <dt><strong>Departamento: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.Departamentos.nombre)</dd>
 
-            <dt><strong>Salario: </strong></dt>
-            <dd>@Html.DisplayFor(model => model.salario)</dd>
+                <dt><strong>Puesto: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.puesto)</dd>
 
-            @if (Model.cv != null)
-            {
-                <dt><strong>Anexos: </strong></dt>
-                <dd><a href="@Html.DisplayFor(model => model.cv)">Curriculum Vitae</a></dd>
-            }
-        </dl>
+                <dt><strong>Salario: </strong></dt>
+                <dd>@Html.DisplayFor(model => model.salario)</dd>
+
+                @if (Model.cv != null)
+                {
+                    //string src2 = Url.Content("~/uploads/cv/" + Model.cv);
+                    string src2 = "http://sistemahrm.azurewebsites.net/uploads/cv/" + Model.cv;
+                    <dt><strong>Anexos: </strong></dt>
+                    <dd><a target="_blank" href="@src2">Curriculum Vitae</a></dd>
+                }
+            </dl>
+        </div>
     </div>
+
+
+<div id="modalPrint" role="dialog" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Preview</h4>
+            </div>
+            <div class="modal-body" id="contenido2">
+                
+                    <div class="row text-center" >
+                        <div class="col-md-3">
+                            <img style="margin-left:20px; height:200px; width:200px" class="img-circle img-responsive img-center" src="@src" />
+                        </div>
+                    
+                    
+                    
+                        <div class="col-md-6">
+                            <div class="well">
+                                <h2>
+                                    @Html.DisplayFor(model => model.nombre) @Html.DisplayFor(model => model.apellido)
+                                    <small>@Html.DisplayFor(model => model.puesto) de @Html.DisplayFor(model => model.Departamentos.nombre)</small>
+
+                                </h2>
+                                <ul style="list-style-type:none">
+                                    <li><span class="glyphicon glyphicon-envelope"></span> @Html.DisplayFor(model => model.email)</li>
+                                    <li><span class="glyphicon glyphicon-earphone"></span> @Html.DisplayFor(model => model.telefono)</li>
+                                    <li><span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(model => model.direccion)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                   
+                
+                
+                <hr />
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3>Informacion Personal</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <dl class="dl-horizontal">
+                            <dt><strong>Cedula: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.cedula)</dd>
+
+                            <dt><strong>Fecha de Nacimiento: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.FechaNac)</dd>
+
+                            <dt><strong>Sexo: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.sexo)</dd>
+
+                            <dt><strong>Estado Civil: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.estadoCivil)</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3>Informacion Academica</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <dl class="dl-horizontal">
+                            <dt><strong>Nivel Alcanzado: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.nivelAlcanzado)</dd>
+
+                            <dt><strong>Titulo Obtenido: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.titulo)</dd>
+
+
+                            <dt><strong>Estudios Completados: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.estudios)</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3>Informacion Laboral</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <dl class="dl-horizontal">
+                            @if (Model.fechaRegistro != null)
+            {
+                                <dt><strong>Fecha de Ingreso: </strong></dt>
+                                <dd>@Html.DisplayFor(model => model.fechaRegistro)</dd>
+
+                            }
+
+                            <dt><strong>Departamento: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.Departamentos.nombre)</dd>
+
+                            <dt><strong>Puesto: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.puesto)</dd>
+
+                            <dt><strong>Salario: </strong></dt>
+                            <dd>@Html.DisplayFor(model => model.salario)</dd>
+
+                           
+                        </dl>
+                    </div>
+                </div>
+
+              
+
+
+
+                <span class="pull-left">@DateTime.Now - Sistema de Recursos Humanos</span>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" id="imprimir2" class="btn btn-success">Imprimir</button>
+                <button type="button" id="btnClose" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
-
+<script>
+        $('#imprimir2').click(function () {
+            $('#contenido2').printThis();
+        });
+</script>

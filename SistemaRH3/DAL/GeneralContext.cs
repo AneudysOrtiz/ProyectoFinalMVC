@@ -25,7 +25,7 @@ namespace SistemaRH3.DAL
         public DbSet<ConfigBackground> ConfigBackground { get; set; }
         public DbSet<ConfigSideBar> ConfigSideBar { get; set; }
         public DbSet<ConfigCorreo> ConfigCorreo { get; set; }
-
+        public DbSet<Usuarios> Usuarios { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

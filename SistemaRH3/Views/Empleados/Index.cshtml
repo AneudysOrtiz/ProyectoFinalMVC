@@ -30,7 +30,8 @@
         $("#confirmModal").modal('show');
         $("#confirmModal #btnOk").click(function (e) {
             $.ajax({
-                url: "@Url.Action("Borrar", "Empleados")" +"/"+ id,
+                url: "@Url.Action("Borrar", "Empleados")" + "/" + id,
+                
                 type: "POST",
             dataType: 'json',
             success: function (data) {
@@ -76,8 +77,10 @@
         string src= "";
         if (item.imagen != null)
         {
-            src = item.imagen;
-        }else if (item.sexo == "Masculino")
+            src = Url.Content("~/uploads/pictures/" + item.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
+        }
+        else if (item.sexo == "Masculino")
         {
             src = Url.Content("~/Content/hombre.png");
         }

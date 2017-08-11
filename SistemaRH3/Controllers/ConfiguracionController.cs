@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace SistemaRH3.Controllers
 {
+    [Authorize]
     public class ConfiguracionController : Controller
     {
         GeneralContext db = new GeneralContext();

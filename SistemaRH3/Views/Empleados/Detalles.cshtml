@@ -36,7 +36,9 @@
  @{string src = ""; }
         @if (Model.imagen != null)
         {
-            src = Model.imagen;
+            src = Url.Content("~/uploads/pictures/" + Model.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + Model.imagen;
+
         }
         else if (Model.sexo == "Masculino")
         {
@@ -143,9 +145,11 @@
                 <dd>@Html.DisplayFor(model => model.salario)</dd>
 
                 @if (Model.cv != null)
-            {
+                {
+                    //string src2 = Url.Content("~/uploads/cv/" + Model.cv);
+                    string src2 = "http://sistemahrm.azurewebsites.net/uploads/cv/" + Model.cv;
                     <dt><strong>Anexos: </strong></dt>
-                    <dd><a target="_blank" href="@Html.DisplayFor(model => model.cv)">Curriculum Vitae</a></dd>
+                    <dd><a target="_blank" href="@src2">Curriculum Vitae</a></dd>
                 }
             </dl>
         </div>

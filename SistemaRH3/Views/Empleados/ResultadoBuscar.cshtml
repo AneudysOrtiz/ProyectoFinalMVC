@@ -16,7 +16,8 @@ else
         string src = "";
         if (item.imagen != null)
         {
-            src = item.imagen;
+            //src = Url.Content("~/uploads/pictures/" + item.foto);
+            src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
         }
         else if (item.sexo == "Masculino")
         {

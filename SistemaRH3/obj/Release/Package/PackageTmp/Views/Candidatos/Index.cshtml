@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<SistemaRH3.Models.Candidatos>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Candidatos";
+    SistemaRH3.Models.Candidatos candidatos = new SistemaRH3.Models.Candidatos();
+    SistemaRH3.DAL.GeneralContext db = new SistemaRH3.DAL.GeneralContext();
+    ViewBag.DepartamentoID = new SelectList(db.Departamentos, "DepartamentoID", "nombre");
 }
 
  <!-- Page Heading -->
@@ -12,62 +15,272 @@
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <a class="btn btn-sm btn-primary" href="@Url.Action("Create","Candidatos")">Agregar Candidato</a>
-                <a class="btn btn-sm btn-warning" href="#">Buscar Candidato</a>
-            </li>
+                <a class="btn btn-sm btn-primary" data-toggle="modal"
+                   data-target="#productModal"><i class="fa fa-plus"></i> Registrar Candidato</a>
+                <a class="btn btn-sm btn-warning" href="@Url.Action("Buscar","Candidatos")"><i class="fa fa-search"></i> Buscar Candidatos</a>
+                <button type="button" class="btn btn-sm btn-success" onclick="imprimir()"><i class="fa fa-print"> </i> Imprimir</button>
+             </li>
         </ol>
     </div>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Vacante.VacanteID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.apellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.telefono)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fechaAp)
-        </th>
-        <th></th>
-    </tr>
+<script>
+    function imprimir() {
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vacante.VacanteID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.apellido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fechaAp)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CandidatoID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CandidatoID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CandidatoID })
-        </td>
-    </tr>
-}
+        $(".btn").hide();
+        window.print(); 
+        $(".btn").show();
+    }
+</script>
 
-</table>
+<!--INsert modal-->
+<div id="productModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label>Registrar Candidato</label></h4>
+            </div>
+            
+            @Html.Partial("Agregar", candidatos)
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    @foreach(var item in Model)
+    {
+
+        string src = "",cv="";
+        if (item.imagen != null)
+        {
+            src = Url.Content("~/uploads/pictures/" + item.imagen);
+            //src = "http://sistemahrm.azurewebsites.net/uploads/pictures/" + item.imagen;
+
+            cv = Url.Content("~/uploads/cv/" + item.imagen);
+           // cv = "http://sistemahrm.azurewebsites.net/uploads/cv/" + item.cv;
+        }
+
+        else
+        {
+            src = Url.Content("~/Content/hombre.png");
+        }
+
+        <div class="row">
+            
+            <div class="col-md-8">
+                <div class="well">
+                    <span class="pull-left"><img style="height:100px; width:100px; margin-right:20px;" class="img-circle img-responsive img-center" src="@src" alt="">
+                        </span>
+                    <strong>Candidato: </strong>@item.nombre @item.apellido
+                    <br /><strong>Vacante a la que aplica: </strong>@item.Vacantes.puesto en @item.Vacantes.Departamentos.nombre
+                    <br /><strong>Contacto: </strong>@item.telefono -  @item.email
+                    @if (item.cv != null) { <br /><strong>Anexo: </strong><a href="@cv" target="_blank">Curriculum</a>}
+                    <br /><br /><strong>Fecha de aplicacion: </strong>@item.fechaAp
+                
+                <span class="pull-right">
+                    <button class="btn btn-sm btn-info" onclick="contratar(@item.CandidatoID)"><i class="fa fa-user"></i> Contratar</button>
+
+                    <button class="btn btn-sm btn-danger" onclick="deleteProductById(@item.CandidatoID)"><i class="fa fa-trash"></i> Eliminar</button>
+                </span>
+                </div>
+            </div>
+                
+        </div>
+    }
+</div>
+
+<!--Confirmation modal-->
+<div id="confirmModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    Quiere eliminar este candidato ?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Contratar modal-->
+<div id="contratarModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><label id="title"></label></h4>
+            </div>
+            <div class="modal-body">
+                <h4>Completar Informacion</h4>
+                <div class="form-horizontal"> 
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Cedula</label>
+                        <div class="col-md-8">
+                        <input type="number" id="cedula" class="form-control"/>    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Sexo</label>
+                        <div class="col-md-8">
+                            <select id="sexo" class="form-control">
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Fecha de Nacimiento</label>
+                        <div class="col-md-8">
+                            <input type="date" id="fechaNac" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Estado Civil</label>
+                        <div class="col-md-8">
+                            <select id="estadoCivil" class="form-control">
+                                <option value="Soltero">Soltero</option>
+                                <option value="Casado">Casado</option>
+                                <option value="Divorciado">Divorciado</option>
+                                <option value="Viudo">Viudo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Direccion de residencia</label>
+                        <div class="col-md-8">
+                            <textarea rows="4" id="direccion" class="form-control" ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Nivel Alcanzado</label>
+                        <div class="col-md-8">
+                        <select id="nivelAlcanzado" name="nivelAlcanzado" class="form-control">
+                            <option value="Primaria">Primaria</option>
+                            <option value="Bachiller">Bachiller</option>
+                            <option value="Tecnico">Tecnico</option>
+                            <option value="Profesional">Profesional</option>
+                            <option value="Especializacion">Especializacion</option>
+                            <option value="Maestria">Maestria</option>
+                            <option value="Doctorado">Doctorado</option>
+                        </select></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Titulo obtenido</label>
+                        <div class="col-md-8">
+                            <input type="text" id="titulo" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Estudios Completados</label>
+                        <div class="col-md-8">
+                            <textarea rows="4" id="estudios" class="form-control" ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Salario</label>
+                        <div class="col-md-8">
+                            <input type="number" id="salario" class="form-control" />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnOk" class="btn btn-primary">Ok</button>
+                <button type="button" id="btnCancel" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteProductById(id) {
+        $("#confirmModal #title").text("Eliminar Candidato");
+        $("#confirmModal").modal('show');
+        $("#confirmModal #btnOk").click(function (e) {
+            $.ajax({
+                url: "@Url.Action("Borrar", "Candidatos")" +"/"+ id,
+                type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                window.location.reload();
+                $("#confirmModal").modal('hide');
+            },
+            error: function (err) {
+                alert("Error: " + err.responseText);
+            }
+        });
+
+        e.preventDefault();
+    });
+    }
+
+    function contratar(id){
+        $("#contratarModal #title").text("Contratar Candidato");
+        $("#contratarModal").modal('show');
+        $("#contratarModal #btnOk").click(function (e) {
+            //if($("#cedula").val()>0 && $("#sexo").val()>0 && $("#fechaNac").val()>0 && $("#estadoCivil").val()>0
+            //    && $("#direccion").val()>0 && $("#nivelAlcanzado").val()>0 && $("#titulo").val()>0
+            //    && $("#estudios").val()>0  && $("#salario").val()>0
+            //    ){
+
+                $.ajax({
+                    url: "@Url.Action("Contratar", "Candidatos")",
+                    data: {id:id,
+                       cedula: $("#cedula").val(),
+                        sexo:    $("#sexo").val(),
+                         fechaNac:   $("#fechaNac").val(), 
+                         estadoCivil:   $("#estadoCivil").val(),
+                         direccion:   $("#direccion").val(), 
+                         nivelAlcanzado:   $("#nivelAlcanzado").val(),
+                          titulo:  $("#titulo").val(),
+                          estudios:  $("#estudios").val(),salario: $("#salario").val(),
+                           puesto:  $("#puesto").val() },
+                        type: "POST",
+                        dataType: 'json',
+                        success: function (data) {
+                            alert("Candidato contratado!");
+                            window.location.reload();
+                            $("#contratarModal").modal('hide');
+                        },
+                        error: function (err) {
+                            alert("Error: " + err.responseText);
+                        }
+                    
+        });
+
+            //}else{
+            //    alert("Debe completar todos los campos!");
+            //    console.log($("#cedula").val(), $("#sexo").val(), $("#fechaNac").val(), $("#estadoCivil").val(),
+            //     $("#direccion").val(), $("#nivelAlcanzado").val(), $("#titulo").val(),
+            //    $("#estudios").val(), $("#salario").val()
+            //   )
+            //}
+            
+
+        e.preventDefault();
+    });
+    }
+</script>
+

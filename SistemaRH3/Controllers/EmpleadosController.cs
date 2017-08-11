@@ -28,11 +28,11 @@ namespace SistemaRH3.Controllers
             {
                 if (product.imagen != null)
                 {
-                    System.IO.File.Delete(product.imagen);
+                    //System.IO.File.Delete(product.imagen);
                 }
                 if (product.cv != null)
                 {
-                    System.IO.File.Delete(product.cv);
+                    //System.IO.File.Delete(product.cv);
                 }
 
                 db.Empleados.Remove(product);
@@ -242,8 +242,9 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file.FileName); //getting only file name 
                             fileName = empleado.nombre.ToString()+empleado.apellido.ToString()+fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/Images"), fileName);                                                       
-                            empleado.imagen = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/pictures"), fileName);
+                            //empleado.imagen = path;                                                     
+                            empleado.imagen = fileName;
                             file.SaveAs(path);
                             
                         }
@@ -263,8 +264,9 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file2.FileName); //getting only file name 
                             fileName = empleado.nombre.ToString() + empleado.apellido.ToString() + fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/CV"), fileName);
-                            empleado.cv = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/cv"), fileName);
+                           // empleado.cv = path;
+                            empleado.cv = fileName;
                             file2.SaveAs(path);
 
                         }
@@ -314,6 +316,13 @@ namespace SistemaRH3.Controllers
                 {
                     if (file.ContentLength > 0)
                     {
+                        //var product = db.Empleados.ToList().Find(x => x.EmpleadoID == empleados.EmpleadoID);
+                        //if (product.imagen != null)
+                        //{
+                        //    //string imagen = product.imagen.ToString();
+                        //    //IO.File.Delete(imagen);
+                        //}
+
                         if (Path.GetExtension(file.FileName).ToLower() == ".jpg"
                             || Path.GetExtension(file.FileName).ToLower() == ".png"
                             || Path.GetExtension(file.FileName).ToLower() == ".jpeg"
@@ -321,8 +330,9 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file.FileName); //getting only file name 
                             fileName = empleados.nombre.ToString() + empleados.apellido.ToString() + fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/Images"), fileName);
-                            empleados.imagen = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/pictures"), fileName);
+                            //empleados.imagen = path;
+                            empleados.imagen = fileName;
                             file.SaveAs(path);
 
                         }
@@ -333,6 +343,12 @@ namespace SistemaRH3.Controllers
                 {
                     if (file2.ContentLength > 0)
                     {
+                        //var product = db.Empleados.ToList().Find(x => x.EmpleadoID == empleados.EmpleadoID);
+                        //if (product.cv != null)
+                        //{
+                        //    System.IO.File.Delete(product.cv);
+                        //}
+
                         if (Path.GetExtension(file2.FileName).ToLower() == ".jpg"
                             || Path.GetExtension(file2.FileName).ToLower() == ".png"
                             || Path.GetExtension(file2.FileName).ToLower() == ".jpeg"
@@ -342,8 +358,9 @@ namespace SistemaRH3.Controllers
                         {
                             var fileName = Path.GetFileName(file2.FileName); //getting only file name 
                             fileName = empleados.nombre.ToString() + empleados.apellido.ToString() + fileName;
-                            path = Path.Combine(Server.MapPath("~/Content/CV"), fileName);
-                            empleados.cv = path;
+                            path = Path.Combine(Server.MapPath("~/uploads/cv"), fileName);
+                            //empleados.cv = path;
+                            empleados.cv = fileName;
                             file2.SaveAs(path);
 
                         }
@@ -352,7 +369,7 @@ namespace SistemaRH3.Controllers
 
               
                 db.Entry(empleados).State = EntityState.Modified;
-                 db.SaveChanges();
+                db.SaveChanges();
                 Historial("Se edito el empleado", empleados.nombre, empleados.apellido);
                 return RedirectToAction("Index");
             }

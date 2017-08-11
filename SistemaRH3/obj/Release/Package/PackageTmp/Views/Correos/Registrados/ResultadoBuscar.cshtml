@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SistemaRH3.Models.Correos>
+@if (Model.Count() == 1)
+{
+    <div id="div1" class="alert alert-success"><strong>Se encontro 1 Correo</strong></div>
+}
+else
+{
+    <div id="div2" class="alert alert-success"><strong>Se encontraron @Model.Count() Correos</strong></div>
+}
+
+<div class="col-md-8">
+    @foreach (var item in Model.OrderByDescending(m => m.CorreoID))
+    {
+
+        <div class="well">
+            <div class="well">
+
+                <strong>Destinatario:</strong> @item.Empleados.nombre @item.Empleados.apellido
+                <br /><strong>Asunto: </strong> @item.asunto
+                <span class="pull-right">Enviado el @item.fecha </span>
+
+                <br /><p>
+                    <strong> Mensaje: </strong>
+                    @Html.Raw(item.mensaje)
+                </p>
+                <br /><strong>Estado:</strong> @item.estado
+                <span class="pull-right">
+                    <button type="button" onclick="reenviar(@item.CorreoID,'registrado')"
+                            class="btn btn-sm btn-warning">
+                        <i class="fa fa-send"></i> Reenviar
+                    </button>
+
+                    <button onclick="deleteProductById(@item.CorreoID)"
+                            class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-trash"></span> Eliminar
+                    </button>
+                </span>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
